@@ -42,7 +42,8 @@ export default function Home() {
 
       await signIn("credentials", {
         token: response.data.data.token,
-        id: response.data.data.user.id,
+        id: response.data.data.id,
+        role: response.data.data.role,
         redirect: false,
       });
 
