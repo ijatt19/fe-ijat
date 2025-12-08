@@ -7,6 +7,7 @@ export default {
       credentials: {
         id: {},
         token: {},
+        role: {},
       },
       authorize: async (credentials) => {
         if (!credentials) {
@@ -16,6 +17,7 @@ export default {
         const user = {
           id: credentials.id as string,
           token: credentials.token,
+          role: credentials.role,
         };
 
         return user;
