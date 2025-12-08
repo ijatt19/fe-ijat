@@ -10,11 +10,16 @@ import {
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { api } from "@/lib/axios";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useState } from "react";
+import { User } from "next-auth";
 
-function TopbarOwner() {
-  const { data: session, status } = useSession();
+interface TopbarOwnerProps {
+  user?: User;
+}
+
+function TopbarOwner({ user }: TopbarOwnerProps) {
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const navList = [
@@ -64,9 +69,10 @@ function TopbarOwner() {
 
   const logoutHandler = async () => {
     try {
+      setLoading(true);
       const response = await api.patch("/auth/logout", null, {
         headers: {
-          Authorization: `Bearer ${session?.user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       });
 
@@ -83,12 +89,13 @@ function TopbarOwner() {
         toast.error(error.message);
         return;
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-      {/* Header Tetap */}
       <div className=" xl:hidden fixed top-0 w-full shadow flex items-center justify-between p-4 z-50 bg-white">
         <div className="flex items-center">
           <img src="/logo.svg" alt="logo" className="w-8 h-8 md:w-12 md:h-12" />
@@ -170,10 +177,10 @@ function TopbarOwner() {
             <button
               onClick={logoutHandler}
               className="p-4 flex gap-x-2 items-center border-b w-full cursor-pointer hover:bg-gray-100"
-              disabled={status === "loading"}
+              disabled={loading}
             >
               <LogOut className="w-5" />
-              {status === "loading" ? "..." : "Keluar"}
+              {loading ? "..." : "Keluar"}
             </button>
           </div>
         </div>

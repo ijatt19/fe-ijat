@@ -7,14 +7,18 @@ import {
   CollapsibleTrigger,
 } from "../ui/collapsible";
 import { useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { api } from "@/lib/axios";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { User } from "next-auth";
 
-function SidebarOwner() {
-  const { data: session, status } = useSession();
-  const [isOpen, setIsOpen] = useState(false);
+interface SidebarOwnerProps {
+  user?: User;
+}
+
+function SidebarOwner({ user }: SidebarOwnerProps) {
+  const [loading, setLoading] = useState(false);
   const navList = [
     {
       name: "Penjualan",
@@ -61,9 +65,10 @@ function SidebarOwner() {
   ];
   const logoutHandler = async () => {
     try {
+      setLoading(true);
       const response = await api.patch("/auth/logout", null, {
         headers: {
-          Authorization: `Bearer ${session?.user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       });
 
@@ -80,6 +85,8 @@ function SidebarOwner() {
         toast.error(error.message);
         return;
       }
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -109,7 +116,6 @@ function SidebarOwner() {
                     <div className="bg-gray-50 flex flex-col">
                       {item.children.map((child, childIndex) => (
                         <Link
-                          onClick={() => setIsOpen(false)}
                           key={childIndex}
                           href={child.location}
                           className="pl-12 pr-4 py-3 text-sm text-gray-600 hover:text-black border-t border-gray-100"
@@ -125,7 +131,6 @@ function SidebarOwner() {
             if (item.location) {
               return (
                 <Link
-                  onClick={() => setIsOpen(false)}
                   key={index}
                   href={item.location}
                   className="flex items-center justify-between w-full p-4 border-b hover:bg-gray-50"
@@ -143,10 +148,10 @@ function SidebarOwner() {
         <button
           onClick={logoutHandler}
           className="p-4 flex gap-x-2 items-center border-b w-full cursor-pointer hover:bg-gray-100"
-          disabled={status === "loading"}
+          disabled={loading}
         >
           <LogOut className="w-5" />
-          {status === "loading" ? "..." : "Keluar"}
+          {loading ? "..." : "Keluar"}
         </button>
       </div>
     </div>
