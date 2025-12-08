@@ -6,14 +6,14 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "./ui/collapsible";
+} from "../ui/collapsible";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
 import { api } from "@/lib/axios";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 
-function Topbar() {
+function TopbarOwner() {
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -182,4 +182,4 @@ function Topbar() {
   );
 }
 
-export default Topbar;
+export default TopbarOwner;
