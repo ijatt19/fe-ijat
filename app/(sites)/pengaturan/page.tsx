@@ -1,3 +1,5 @@
-export default function page() {
-  return <div>pengatuarn page</div>;
+import { redirect } from "next/navigation";
+
+export default function PengaturanPage() {
+  redirect("/pengaturan/profil");
 }

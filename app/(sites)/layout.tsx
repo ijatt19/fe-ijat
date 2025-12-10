@@ -19,9 +19,9 @@ export default async function SitesLayout({
         {/* topbar */}
 
         {/* sidebar and main-content */}
-        <div className="px-4 py-20 xl:p-0 xl:flex w-full min-h-screen">
+        <div className="px-4 pt-20 md:pt-24 xl:p-0 xl:flex w-full min-h-screen">
           <SidebarOwner user={session.user} />
-          <div className="w-full">{children}</div>
+          <div className="w-full xl:p-6">{children}</div>
         </div>
         {/* sidebar and main-content */}
       </SidebarProvider>
