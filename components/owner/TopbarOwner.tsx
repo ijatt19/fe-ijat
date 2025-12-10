@@ -23,6 +23,7 @@ function TopbarOwner({ user }: TopbarOwnerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navList = [
+    { location: "/dashboard", name: "Dashboard", imagePath: "/dashboard.svg" },
     {
       name: "Penjualan",
       imagePath: "/penjualan.svg",
@@ -64,7 +65,7 @@ function TopbarOwner({ user }: TopbarOwnerProps) {
       ],
     },
     { location: "/", name: "Konten Website", imagePath: "/konten.svg" },
-    { location: "/", name: "Pengaturan", imagePath: "/setting.svg" },
+    { location: "/pengaturan", name: "Pengaturan", imagePath: "/setting.svg" },
   ];
 
   const logoutHandler = async () => {

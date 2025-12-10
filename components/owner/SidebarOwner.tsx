@@ -20,6 +20,7 @@ interface SidebarOwnerProps {
 function SidebarOwner({ user }: SidebarOwnerProps) {
   const [loading, setLoading] = useState(false);
   const navList = [
+    { location: "/dashboard", name: "Dashboard", imagePath: "/dashboard.svg" },
     {
       name: "Penjualan",
       imagePath: "/penjualan.svg",

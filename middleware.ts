@@ -4,18 +4,18 @@ import { NextResponse } from "next/server";
 export default auth((req) => {
   const isLoggedIn = !!req.auth;
   const { nextUrl } = req;
+  const path = nextUrl.pathname;
 
-  const isDashboard = nextUrl.pathname.startsWith("/dashboard");
-  const isLogin = nextUrl.pathname === "/";
+  const publicRoutes = ["/"];
 
-  // 1. Kalau akses Dashboard tapi belum login -> Tendang ke Login
-  if (isDashboard && !isLoggedIn) {
-    return NextResponse.redirect(new URL("/", nextUrl));
+  const isPublicRoute = publicRoutes.includes(path);
+
+  if (path === "/" && isLoggedIn) {
+    return NextResponse.redirect(new URL("/dashboard", nextUrl));
   }
 
-  // 2. Kalau akses Login tapi sudah login -> Masuk ke Dashboard
-  if (isLogin && isLoggedIn) {
-    return NextResponse.redirect(new URL("/dashboard", nextUrl));
+  if (!isPublicRoute && !isLoggedIn) {
+    return NextResponse.redirect(new URL("/", nextUrl));
   }
 
   return NextResponse.next();
