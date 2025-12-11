@@ -1,10 +1,11 @@
 import { api } from "@/lib/axios";
-import { ApiResponse, User } from "@/types/api";
+import { ApiErrorResponse, ApiResponse, User } from "@/types/api";
 import { AxiosError } from "axios";
+import { redirect } from "next/navigation";
 import { cache } from "react";
 
 export const getUserProfile = cache(
-  async (token: string, id: string): Promise<User | null> => {
+  async (token: string, id: string): Promise<ApiResponse | null> => {
     try {
       const response = await api.get<ApiResponse<User>>(`/user/${id}`, {
         headers: {
@@ -12,8 +13,12 @@ export const getUserProfile = cache(
         },
       });
 
-      return response.data.data ?? null;
-    } catch (error) {
+      return response.data ?? null;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return err.response?.data;
+      }
+
       return null;
     }
   }

@@ -12,3 +12,16 @@ export const profilSchema = z.object({
 });
 
 export type ProfilFormValues = z.infer<typeof profilSchema>;
+
+export const gantiPasswordSchema = z
+  .object({
+    passwordLama: z.string().min(1, "Password lama wajib diisi"),
+    passwordBaru: z.string().min(8, "Password minimal 8 character"),
+    konfirmasiPasswordBaru: z.string().min(1, "Konfirmasi wajib diisi"),
+  })
+  .refine((data) => data.passwordBaru === data.konfirmasiPasswordBaru, {
+    message: "Konfirmasi password tidak cocok",
+    path: ["konfirmasiPasswordBaru"],
+  });
+
+export type GantiPasswordValues = z.infer<typeof gantiPasswordSchema>;

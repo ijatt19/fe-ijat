@@ -3,6 +3,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { User } from "@/types/api";
 import UpdateForm from "./UpdateForm";
+import GantiPassword from "./GantiPassword";
 
 function ProfilDetail({ dataUser, token }: { dataUser: User; token: string }) {
   return (
@@ -65,9 +66,7 @@ function ProfilDetail({ dataUser, token }: { dataUser: User; token: string }) {
       </div>
       <div className="flex flex-col w-full gap-y-3 xl:gap-y-0 xl:flex-row xl:gap-x-4">
         <UpdateForm token={token} dataUser={dataUser} />
-        <Button className="rounded bg-primary-orange border border-primary-orange hover:bg-inherit hover:text-primary-orange">
-          Ganti Password
-        </Button>
+        <GantiPassword />
         <Button className="rounded bg-primary-red border border-primary-red hover:bg-inherit hover:text-primary-red">
           Logout
         </Button>

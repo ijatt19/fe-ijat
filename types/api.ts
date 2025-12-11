@@ -4,6 +4,11 @@ export interface ApiResponse<T = any> {
   data?: T;
 }
 
+export interface ApiErrorResponse {
+  statusCode: number;
+  message: string;
+}
+
 export interface User {
   id: number;
   namaDepan: string;

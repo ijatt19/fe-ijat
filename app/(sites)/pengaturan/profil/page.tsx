@@ -1,7 +1,8 @@
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import { getUserProfile } from "@/services/user.service";
 import { redirect } from "next/navigation";
 import ProfilDetail from "./component/ProfilDetail";
+import ForceClose from "@/components/ForceClose";
 
 export default async function ProfilPage() {
   const session = await auth();
@@ -14,5 +15,9 @@ export default async function ProfilPage() {
     return <div>Gagal memuat profil</div>;
   }
 
-  return <ProfilDetail dataUser={userDetail} token={session.user.token} />;
+  if (userDetail.statusCode === 401) {
+    return <ForceClose />;
+  }
+
+  return <ProfilDetail dataUser={userDetail.data} token={session.user.token} />;
 }

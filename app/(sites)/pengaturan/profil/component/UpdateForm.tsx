@@ -34,7 +34,7 @@ function UpdateForm({ dataUser, token }: { dataUser: User; token: string }) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<ProfilFormValues>({
     resolver: zodResolver(profilSchema),
     defaultValues: {
@@ -69,8 +69,6 @@ function UpdateForm({ dataUser, token }: { dataUser: User; token: string }) {
   });
 
   const ubahSubmitHandler = (data: ProfilFormValues) => {
-    console.log("click");
-
     mutation.mutate(data);
   };
   return (
@@ -151,7 +149,7 @@ function UpdateForm({ dataUser, token }: { dataUser: User; token: string }) {
                 </Button>
               </DialogClose>
               <Button
-                disabled={mutation.isPending}
+                disabled={mutation.isPending || !isDirty}
                 className="rounded bg-primary-green border border-primary-green hover:bg-inherit hover:text-primary-green"
                 type="submit"
               >

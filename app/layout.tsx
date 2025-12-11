@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} antialiased w-full`}>
         <SessionProvider>
-          <Toaster />
+          <Toaster position="top-center" />
           <QueryProvider>{children}</QueryProvider>
         </SessionProvider>
       </body>
