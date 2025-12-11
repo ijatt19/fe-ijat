@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { User } from "@/types/api";
+import UpdateForm from "./UpdateForm";
 
-function ProfilDetail({ dataUser }: { dataUser: User }) {
+function ProfilDetail({ dataUser, token }: { dataUser: User; token: string }) {
   return (
     <div className="flex flex-col gap-y-4">
       <div className="flex flex-col gap-y-4 xl:flex-row xl:w-full xl:gap-y-0 xl:gap-x-4">
@@ -15,6 +16,7 @@ function ProfilDetail({ dataUser }: { dataUser: User }) {
               className="border border-black disabled:opacity-100"
               disabled
               value={dataUser.namaDepan}
+              readOnly
             />
           </Field>
           <Field>
@@ -24,6 +26,7 @@ function ProfilDetail({ dataUser }: { dataUser: User }) {
               className="border border-black disabled:opacity-100"
               disabled
               value={dataUser.namaBelakang}
+              readOnly
             />
           </Field>
           <Field>
@@ -33,6 +36,7 @@ function ProfilDetail({ dataUser }: { dataUser: User }) {
               className="border border-black disabled:opacity-100"
               disabled
               value={dataUser.username}
+              readOnly
             />
           </Field>
         </div>
@@ -44,6 +48,7 @@ function ProfilDetail({ dataUser }: { dataUser: User }) {
               className="border border-black disabled:opacity-100"
               disabled
               value={dataUser.email}
+              readOnly
             />
           </Field>
           <Field>
@@ -53,15 +58,14 @@ function ProfilDetail({ dataUser }: { dataUser: User }) {
               className="border border-black disabled:opacity-100"
               disabled
               value={dataUser.noHp}
+              readOnly
             />
           </Field>
         </div>
       </div>
       <div className="flex flex-col w-full gap-y-3 xl:gap-y-0 xl:flex-row xl:gap-x-4">
-        <Button className="rounded bg-primary-blue border border-primary-blue hover:bg-inherit hover:text-primary-blue">
-          Ubah
-        </Button>
-        <Button className="rounded bg-primary-orange border border-primary-orange hover:bg-inherit hover:text-primary-red">
+        <UpdateForm token={token} dataUser={dataUser} />
+        <Button className="rounded bg-primary-orange border border-primary-orange hover:bg-inherit hover:text-primary-orange">
           Ganti Password
         </Button>
         <Button className="rounded bg-primary-red border border-primary-red hover:bg-inherit hover:text-primary-red">

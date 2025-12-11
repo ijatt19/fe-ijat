@@ -14,5 +14,5 @@ export default async function ProfilPage() {
     return <div>Gagal memuat profil</div>;
   }
 
-  return <ProfilDetail dataUser={userDetail} />;
+  return <ProfilDetail dataUser={userDetail} token={session.user.token} />;
 }

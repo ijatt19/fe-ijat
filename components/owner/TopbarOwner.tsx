@@ -99,7 +99,7 @@ function TopbarOwner({ user }: TopbarOwnerProps) {
 
   return (
     <>
-      <div className=" xl:hidden fixed top-0 w-full shadow flex items-center justify-between p-4 z-50 bg-white">
+      <div className=" xl:hidden fixed top-0 w-full shadow flex items-center justify-between p-4 z-50 xl:z-0 bg-white">
         <div className="flex items-center">
           <img src="/logo.svg" alt="logo" className="w-8 h-8 md:w-12 md:h-12" />
         </div>
