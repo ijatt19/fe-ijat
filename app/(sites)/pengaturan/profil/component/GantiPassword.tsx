@@ -17,21 +17,28 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { api } from "@/lib/axios";
 import {
   gantiPasswordSchema,
   GantiPasswordValues,
 } from "@/lib/schemas/pengaturan";
+import { ApiResponse } from "@/types/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-function GantiPassword() {
+function GantiPassword({ token }: { token: string }) {
   const router = useRouter();
   const [openDialog, setOpenDialog] = useState(false);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<GantiPasswordValues>({
     resolver: zodResolver(gantiPasswordSchema),
@@ -42,9 +49,37 @@ function GantiPassword() {
     },
   });
 
-  const submitHandler = () => {};
+  const mutation = useMutation({
+    mutationFn: async (values: GantiPasswordValues) => {
+      return await api.patch<ApiResponse>("/user/ganti", values, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    },
+    onSuccess: (response) => {
+      reset();
+      toast.success(response.data.message);
+      setOpenDialog(false);
+      router.refresh();
+    },
+    onError: async (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.message || "Gagal update profil");
+        if (error.response?.status === 401) {
+          await signOut({ redirect: true, redirectTo: "/" });
+        }
+      } else {
+        toast.error("Terjadi kesalahan sistem");
+      }
+    },
+  });
+
+  const submitHandler = (data: GantiPasswordValues) => {
+    mutation.mutate(data);
+  };
   return (
-    <Dialog>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
         <Button className="rounded bg-primary-orange border border-primary-orange hover:bg-inherit hover:text-primary-orange">
           Ganti Password
@@ -103,10 +138,11 @@ function GantiPassword() {
                 </Button>
               </DialogClose>
               <Button
+                disabled={mutation.isPending}
                 className="rounded bg-primary-green border border-primary-green hover:bg-inherit hover:text-primary-green"
                 type="submit"
               >
-                Ganti
+                {mutation.isPending ? "Mengubah ..." : "Ubah"}
               </Button>
             </DialogFooter>
           </FieldSet>

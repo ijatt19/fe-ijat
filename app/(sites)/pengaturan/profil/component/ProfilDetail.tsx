@@ -66,7 +66,7 @@ function ProfilDetail({ dataUser, token }: { dataUser: User; token: string }) {
       </div>
       <div className="flex flex-col w-full gap-y-3 xl:gap-y-0 xl:flex-row xl:gap-x-4">
         <UpdateForm token={token} dataUser={dataUser} />
-        <GantiPassword />
+        <GantiPassword token={token} />
         <Button className="rounded bg-primary-red border border-primary-red hover:bg-inherit hover:text-primary-red">
           Logout
         </Button>

@@ -22,6 +22,7 @@ import { User } from "@/types/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -59,9 +60,12 @@ function UpdateForm({ dataUser, token }: { dataUser: User; token: string }) {
       setOpenUbahDialog(false);
       router.refresh();
     },
-    onError: (error) => {
+    onError: async (error) => {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message || "Gagal update profil");
+        if (error.response?.status === 401) {
+          await signOut({ redirect: true, redirectTo: "/" });
+        }
       } else {
         toast.error("Terjadi kesalahan sistem");
       }
