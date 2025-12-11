@@ -81,7 +81,9 @@ function TopbarOwner({ user }: TopbarOwnerProps) {
       await signOut({ redirect: true, redirectTo: "/" });
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error);
+        if (error.status === 401) {
+          await signOut({ redirect: true, redirectTo: "/" });
+        }
 
         toast.error(error?.response?.data?.message);
         return;

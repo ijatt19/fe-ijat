@@ -62,7 +62,7 @@ function SidebarOwner({ user }: SidebarOwnerProps) {
       ],
     },
     { location: "/", name: "Konten Website", imagePath: "/konten.svg" },
-    { location: "/", name: "Pengaturan", imagePath: "/setting.svg" },
+    { location: "/pengaturan", name: "Pengaturan", imagePath: "/setting.svg" },
   ];
   const logoutHandler = async () => {
     try {
@@ -77,7 +77,9 @@ function SidebarOwner({ user }: SidebarOwnerProps) {
       await signOut({ redirect: true, redirectTo: "/" });
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error);
+        if (error.status === 401) {
+          await signOut({ redirect: true, redirectTo: "/" });
+        }
 
         toast.error(error?.response?.data?.message);
         return;
@@ -91,8 +93,8 @@ function SidebarOwner({ user }: SidebarOwnerProps) {
     }
   };
   return (
-    <div className="hidden xl:block xl:w-1/5 xl:relative xl:left-0 xl:top-0 xl:min-h-screen">
-      <div className="overflow-y-auto flex flex-col justify-between h-screen">
+    <div className="hidden xl:block xl:w-1/5 xl:max-h-screen">
+      <div className="overflow-y-auto flex flex-col justify-between h-screen w-full">
         <div>
           <div className="flex justify-center items-center p-4">
             <img src="/logo.svg" alt="logo" className="w-12" />
