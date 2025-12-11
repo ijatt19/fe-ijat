@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { User } from "@/types/api";
 import UpdateForm from "./UpdateForm";
 import GantiPassword from "./GantiPassword";
+import Logout from "./Logout";
 
 function ProfilDetail({ dataUser, token }: { dataUser: User; token: string }) {
   return (
@@ -67,9 +68,7 @@ function ProfilDetail({ dataUser, token }: { dataUser: User; token: string }) {
       <div className="flex flex-col w-full gap-y-3 xl:gap-y-0 xl:flex-row xl:gap-x-4">
         <UpdateForm token={token} dataUser={dataUser} />
         <GantiPassword token={token} />
-        <Button className="rounded bg-primary-red border border-primary-red hover:bg-inherit hover:text-primary-red">
-          Logout
-        </Button>
+        <Logout token={token} />
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import { api } from "@/lib/axios";
-import { ApiErrorResponse, ApiResponse, User } from "@/types/api";
+import { ApiResponse, User } from "@/types/api";
 import { AxiosError } from "axios";
-import { redirect } from "next/navigation";
 import { cache } from "react";
 
 export const getUserProfile = cache(
