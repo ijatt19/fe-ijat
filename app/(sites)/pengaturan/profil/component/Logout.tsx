@@ -24,8 +24,6 @@ function Logout({ token }: { token: string }) {
       await signOut({ redirect: true, redirectTo: "/" });
     },
     onError: async (err) => {
-      console.log(err);
-
       toast.error(err.message);
     },
   });

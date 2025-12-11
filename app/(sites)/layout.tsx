@@ -11,6 +11,7 @@ export default async function SitesLayout({
 }) {
   const session = await auth();
   if (!session) redirect("/");
+  if (!session.user) redirect("/");
   return (
     <div className="w-full">
       <SidebarProvider>

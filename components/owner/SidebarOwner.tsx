@@ -12,6 +12,7 @@ import { api } from "@/lib/axios";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { User } from "next-auth";
+import { logout } from "@/services/logout.service";
 
 interface SidebarOwnerProps {
   user?: User;
@@ -65,32 +66,18 @@ function SidebarOwner({ user }: SidebarOwnerProps) {
     { location: "/pengaturan", name: "Pengaturan", imagePath: "/setting.svg" },
   ];
   const logoutHandler = async () => {
-    try {
-      setLoading(true);
-      const response = await api.patch("/auth/logout", null, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
-
-      toast.success(response.data.message);
-      await signOut({ redirect: true, redirectTo: "/" });
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        if (error.status === 401) {
-          await signOut({ redirect: true, redirectTo: "/" });
-        }
-
-        toast.error(error?.response?.data?.message);
-        return;
+    if (user?.token) {
+      try {
+        setLoading(true);
+        const response = await logout(user.token);
+        toast.success(response?.message);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
-      if (error instanceof Error) {
-        toast.error(error.message);
-        return;
-      }
-    } finally {
-      setLoading(false);
     }
+    await signOut({ redirect: true, redirectTo: "/" });
   };
   return (
     <div className="hidden xl:block xl:w-1/5 xl:max-h-screen">
