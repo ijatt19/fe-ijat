@@ -22,7 +22,8 @@ import {
   gantiPasswordSchema,
   GantiPasswordValues,
 } from "@/lib/schemas/pengaturan";
-import { ApiResponse } from "@/types/api";
+import { gantiPassword } from "@/services/user.service";
+import { ErrorResponse } from "@/types/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -51,27 +52,21 @@ function GantiPassword({ token }: { token: string }) {
 
   const mutation = useMutation({
     mutationFn: async (values: GantiPasswordValues) => {
-      return await api.patch<ApiResponse>("/user/ganti", values, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      return await gantiPassword(token, values);
     },
     onSuccess: (response) => {
+      if (!response.success) throw response;
       reset();
-      toast.success(response.data.message);
+      toast.success(response.message);
       setOpenDialog(false);
       router.refresh();
     },
-    onError: async (error) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.message || "Gagal update profil");
-        if (error.response?.status === 401) {
-          await signOut({ redirect: true, redirectTo: "/" });
-        }
-      } else {
-        toast.error("Terjadi kesalahan sistem");
+    onError: async (error: ErrorResponse) => {
+      if (error.statusCode === 401) {
+        toast.error(error.message);
+        await signOut({ redirect: true, redirectTo: "/" });
       }
+      toast.error(error.message);
     },
   });
 

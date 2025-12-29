@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { logout } from "@/services/logout.service";
+import { ErrorResponse } from "@/types/api";
 import { useMutation } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
@@ -20,11 +21,18 @@ function Logout({ token }: { token: string }) {
   const mutation = useMutation({
     mutationFn: () => logout(token),
     onSuccess: async (response) => {
-      toast.success(response?.message);
+      if (!response.success) throw response;
+
+      toast.success(response.message);
+      setOpen(false);
       await signOut({ redirect: true, redirectTo: "/" });
     },
-    onError: async (err) => {
-      toast.error(err.message);
+    onError: async (error: ErrorResponse) => {
+      if (error.statusCode === 401) {
+        toast.error(error.message);
+        await signOut({ redirect: true, redirectTo: "/" });
+      }
+      toast.error(error.message);
     },
   });
   return (

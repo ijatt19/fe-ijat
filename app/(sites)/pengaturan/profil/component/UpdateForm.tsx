@@ -16,12 +16,11 @@ import {
   FieldSet,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { api } from "@/lib/axios";
 import { ProfilFormValues, profilSchema } from "@/lib/schemas/pengaturan";
-import { User } from "@/types/api";
+import { updateUserProfile } from "@/services/user.service";
+import { ErrorResponse, User } from "@/types/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -49,26 +48,21 @@ function UpdateForm({ dataUser, token }: { dataUser: User; token: string }) {
 
   const mutation = useMutation({
     mutationFn: async (values: ProfilFormValues) => {
-      return await api.patch(`/user/${dataUser.id}`, values, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      return await updateUserProfile(token, dataUser.id, values);
     },
-    onSuccess: () => {
-      toast.success("Profil berhasil di perbarui");
+    onSuccess: (response) => {
+      if (!response.success) throw response;
+
+      toast.success(response.message);
       setOpenUbahDialog(false);
       router.refresh();
     },
-    onError: async (error) => {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data?.message || "Gagal update profil");
-        if (error.response?.status === 401) {
-          await signOut({ redirect: true, redirectTo: "/" });
-        }
-      } else {
-        toast.error("Terjadi kesalahan sistem");
+    onError: async (error: ErrorResponse) => {
+      if (error.statusCode === 401) {
+        toast.error(error.message);
+        await signOut({ redirect: true, redirectTo: "/" });
       }
+      toast.error(error.message);
     },
   });
 

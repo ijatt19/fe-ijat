@@ -62,7 +62,11 @@ function SidebarOwner({ user }: SidebarOwnerProps) {
         { name: "Akun", location: "/" },
       ],
     },
-    { location: "/", name: "Konten Website", imagePath: "/konten.svg" },
+    {
+      location: "/konten-website",
+      name: "Konten Website",
+      imagePath: "/konten.svg",
+    },
     { location: "/pengaturan", name: "Pengaturan", imagePath: "/setting.svg" },
   ];
   const logoutHandler = async () => {
