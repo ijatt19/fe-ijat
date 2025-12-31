@@ -89,6 +89,9 @@ function UpdateForm({ dataUser, token }: { dataUser: User; token: string }) {
                   {...register("namaDepan")}
                   disabled={mutation.isPending}
                 />
+                {errors.namaDepan && (
+                  <FieldError>{errors.namaDepan.message}</FieldError>
+                )}
               </Field>
               <Field>
                 <FieldLabel htmlFor="n-belakang">Nama Belakang</FieldLabel>
@@ -98,8 +101,8 @@ function UpdateForm({ dataUser, token }: { dataUser: User; token: string }) {
                   {...register("namaBelakang")}
                   disabled={mutation.isPending}
                 />
-                {errors.namaDepan && (
-                  <FieldError>{errors.namaDepan.message}</FieldError>
+                {errors.namaBelakang && (
+                  <FieldError>{errors.namaBelakang.message}</FieldError>
                 )}
               </Field>
               <Field>
@@ -110,8 +113,8 @@ function UpdateForm({ dataUser, token }: { dataUser: User; token: string }) {
                   {...register("username")}
                   disabled={mutation.isPending}
                 />
-                {errors.namaBelakang && (
-                  <FieldError>{errors.namaBelakang.message}</FieldError>
+                {errors.username && (
+                  <FieldError>{errors.username.message}</FieldError>
                 )}
               </Field>
               <Field>

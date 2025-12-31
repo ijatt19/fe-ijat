@@ -17,5 +17,7 @@ export default async function ProfilPage() {
     return <div>{userDetail.message}</div>;
   }
 
+  if (!("data" in userDetail)) return <div>{userDetail.message}</div>;
+
   return <ProfilDetail dataUser={userDetail.data} token={session.user.token} />;
 }

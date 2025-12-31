@@ -3,25 +3,21 @@ import {
   GantiPasswordValues,
   ProfilFormValues,
 } from "@/lib/schemas/pengaturan";
-import { ResponseResult, User } from "@/types/api";
+import { ApiResponse, User } from "@/types/api";
 import { AxiosError } from "axios";
 import { cache } from "react";
 
 export const getUserProfile = cache(
-  async (token: string, id: string): Promise<ResponseResult<User>> => {
+  async (token: string, id: string): Promise<ApiResponse<User>> => {
     try {
-      const response = await api.get<ResponseResult<User>>(`/user/${id}`, {
+      const response = await api.get<ApiResponse<User>>(`/user/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (!response.data.success) {
-        return {
-          success: false,
-          statusCode: 404,
-          message: "Data user kosong (null)",
-        };
+        throw response.data;
       }
 
       return response.data;
@@ -42,9 +38,9 @@ export const updateUserProfile = async (
   token: string,
   id: number,
   values: ProfilFormValues
-): Promise<ResponseResult> => {
+): Promise<ApiResponse> => {
   try {
-    const response = await api.patch<ResponseResult>(`/user/${id}`, values, {
+    const response = await api.patch<ApiResponse>(`/user/${id}`, values, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -70,9 +66,9 @@ export const updateUserProfile = async (
 export const gantiPassword = async (
   token: string,
   values: GantiPasswordValues
-): Promise<ResponseResult> => {
+): Promise<ApiResponse> => {
   try {
-    const response = await api.patch<ResponseResult>("/user/ganti", values, {
+    const response = await api.patch<ApiResponse>("/user/ganti", values, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

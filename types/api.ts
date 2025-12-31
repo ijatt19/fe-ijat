@@ -1,27 +1,26 @@
-// export interface ApiResponse<T = any> {
-//   success: boolean;
-//   message: string;
-//   data?: T;
-// }
-
-// export interface ApiErrorResponse {
-//   succes: boolean;
-//   message: string;
-// }
-
-export type SuccessResponse<T = void> = {
-  success: true;
+type BaseResponse = {
+  success: boolean;
   message: string;
-  data?: T;
 };
 
-export type ErrorResponse = {
+export type SuccessWithData<T> = BaseResponse & {
+  success: true;
+  data: T;
+};
+
+export type SuccessWithoutData = BaseResponse & {
+  success: true;
+};
+
+export type ErrorResponse = BaseResponse & {
   success: false;
-  message: string;
   statusCode: number;
 };
 
-export type ResponseResult<T = void> = SuccessResponse<T> | ErrorResponse;
+export type ApiResponse<T = never> =
+  | SuccessWithData<T>
+  | SuccessWithoutData
+  | ErrorResponse;
 
 export interface User {
   id: number;
@@ -36,6 +35,7 @@ export interface Konten {
   id: number;
   key: string;
   value: string;
+  idImage: string;
   group: string;
   inputType: string;
 }
