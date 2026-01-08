@@ -39,3 +39,8 @@ export interface Konten {
   group: string;
   inputType: string;
 }
+
+export interface HeaderKonten {
+  logo: Konten;
+  navbars: Konten[];
+}

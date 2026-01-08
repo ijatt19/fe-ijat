@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -14,33 +13,30 @@ import { updateLogo } from "@/services/konten-website.service";
 import { ErrorResponse, Konten } from "@/types/api";
 import { compressToWebp } from "@/utils/compressWebp";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-function UpdateLogo({
-  token,
-  logoKonten,
-}: {
-  token: string;
-  logoKonten: Konten;
-}) {
-  if (!logoKonten) return <div>Logo tidak ada</div>;
-
+function UpdateLogo({ dataLogo, token }: { dataLogo: Konten; token: string }) {
   const {
     watch,
     control,
     handleSubmit,
-    formState: { errors, isDirty },
+    reset,
+    resetField,
+    formState: { errors },
   } = useForm<LogoSchemaValues>({
     resolver: zodResolver(logoSchema),
   });
   const [preview, setPreview] = useState<string | null>(null);
+  const [fileInputKey, setFileInputKey] = useState(0);
 
   const file = watch("value");
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!file) {
@@ -59,7 +55,7 @@ function UpdateLogo({
   const mutation = useMutation({
     mutationFn: async (values: LogoSchemaValues) => {
       return await updateLogo(token, {
-        idImage: logoKonten.idImage,
+        idImage: dataLogo.idImage,
         name: values.value.name,
         file: values.value,
       });
@@ -68,6 +64,12 @@ function UpdateLogo({
       if (!response.success) throw response;
 
       toast.success(response.message);
+      queryClient.invalidateQueries({
+        queryKey: ["header-konten"],
+      });
+      reset();
+      resetField("value");
+      setFileInputKey((k) => k + 1);
     },
     onError: async (error: ErrorResponse) => {
       if (error.statusCode === 401) {
@@ -83,7 +85,7 @@ function UpdateLogo({
   };
   return (
     <div className="shadow rounded p-2">
-      <h2 className="text-xl">Navbar</h2>
+      <h2 className="text-xl mb-4">Navbar</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
           <FieldGroup>
@@ -102,8 +104,8 @@ function UpdateLogo({
               ) : (
                 <div className="relative w-9 h-9">
                   <Image
-                    src={logoKonten.value}
-                    alt={logoKonten.key}
+                    src={dataLogo.value}
+                    alt={dataLogo.key}
                     fill
                     objectFit="contain"
                     loading="lazy"
@@ -115,6 +117,7 @@ function UpdateLogo({
                 control={control}
                 render={({ field }) => (
                   <Input
+                    key={fileInputKey}
                     disabled={mutation.isPending}
                     type="file"
                     accept="image/png,image/jpeg,image/webp"
@@ -136,7 +139,7 @@ function UpdateLogo({
               {errors.value && <FieldError>{errors.value.message}</FieldError>}
               <Button
                 type="submit"
-                disabled={!isDirty || mutation.isPending}
+                disabled={mutation.isPending}
                 className="bg-primary-green"
               >
                 {mutation.isPending ? "Loading" : "Update"}

@@ -1,5 +1,5 @@
 import { api } from "@/lib/axios";
-import { ApiResponse, Konten } from "@/types/api";
+import { ApiResponse, HeaderKonten, Konten } from "@/types/api";
 import { AxiosError } from "axios";
 import { cache } from "react";
 
@@ -29,6 +29,36 @@ export const getDataKonten = cache(
     }
   }
 );
+
+export const getDataHeaderKonten = async (
+  token: string
+): Promise<ApiResponse<HeaderKonten>> => {
+  try {
+    const response = await api.get<ApiResponse<HeaderKonten>>(
+      `/website/header`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.data.success) {
+      throw response.data;
+    }
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};
 
 export const updateLogo = async (
   token: string,
