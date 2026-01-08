@@ -6,6 +6,12 @@ export const logoSchema = z.object({
 
 export type LogoSchemaValues = z.infer<typeof logoSchema>;
 
+export const imageSchema = z.object({
+  value: z.instanceof(File).refine((file) => file.size > 0),
+});
+
+export type ImageSchemaValues = z.infer<typeof imageSchema>;
+
 export const updateKontenWebsiteSchema = z.object({
   items: z.array(
     z.object({

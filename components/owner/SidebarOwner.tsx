@@ -84,7 +84,7 @@ function SidebarOwner({ user }: SidebarOwnerProps) {
     await signOut({ redirect: true, redirectTo: "/" });
   };
   return (
-    <div className="hidden xl:block xl:w-1/5 xl:max-h-screen">
+    <div className="hidden xl:block xl:fixed xl:top-0 xl:left-0 xl:w-1/5 xl:min-h-screen">
       <div className="overflow-y-auto flex flex-col justify-between h-screen w-full">
         <div>
           <div className="flex justify-center items-center p-4">

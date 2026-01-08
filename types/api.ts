@@ -44,3 +44,7 @@ export interface HeaderKonten {
   logo: Konten;
   navbars: Konten[];
 }
+
+export interface BodyKonten {
+  sections: [{ image: Konten; title: Konten; description: Konten }];
+}
