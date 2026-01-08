@@ -9,13 +9,5 @@ export default async function KontenWebsiteHeaderPage() {
 
   if (!session) redirect("/");
 
-  // const dataHeader = await getDataHeaderKonten(session.user.token);
-
-  // if (!dataHeader.success) {
-  //   if (dataHeader.statusCode === 401) return <ForceClose />;
-
-  //   return <div>{dataHeader.message}</div>;
-  // }
-
   return <Header token={session.user.token} />;
 }

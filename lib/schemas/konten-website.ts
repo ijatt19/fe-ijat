@@ -5,3 +5,17 @@ export const logoSchema = z.object({
 });
 
 export type LogoSchemaValues = z.infer<typeof logoSchema>;
+
+export const updateKontenWebsiteSchema = z.object({
+  items: z.array(
+    z.object({
+      id: z.number().min(1, "Id tidak boleh kosong"),
+      key: z.string().min(1, "Key tidak boleh kosong"),
+      value: z.string().min(1, "Value tidak boleh kosong"),
+    })
+  ),
+});
+
+export type UpdateKontenWebsiteValues = z.infer<
+  typeof updateKontenWebsiteSchema
+>;

@@ -4,6 +4,7 @@ import UpdateLogo from "./UpdateLogo";
 import { getDataHeaderKonten } from "@/services/konten-website.service";
 import ForceClose from "@/components/ForceClose";
 import { ErrorResponse, HeaderKonten } from "@/types/api";
+import UpdateNavbar from "./UpdateNavbar";
 
 function Header({ token }: { token: string }) {
   const { data, isLoading, error } = useQuery<HeaderKonten, ErrorResponse>({
@@ -28,7 +29,12 @@ function Header({ token }: { token: string }) {
 
   if (!data) return null;
 
-  return <UpdateLogo dataLogo={data.logo} token={token} />;
+  return (
+    <>
+      <UpdateLogo dataLogo={data.logo} token={token} />
+      <UpdateNavbar dataNavbar={data.navbars} token={token} />
+    </>
+  );
 }
 
 export default Header;

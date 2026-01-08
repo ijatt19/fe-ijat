@@ -85,12 +85,11 @@ function UpdateLogo({ dataLogo, token }: { dataLogo: Konten; token: string }) {
   };
   return (
     <div className="shadow rounded p-2">
-      <h2 className="text-xl mb-4">Navbar</h2>
+      <h2 className="text-xl mb-4">Logo</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="logo">Logo</FieldLabel>
               {preview ? (
                 <div className="relative w-9 h-9">
                   <Image

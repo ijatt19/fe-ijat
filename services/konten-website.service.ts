@@ -89,3 +89,29 @@ export const updateLogo = async (
     };
   }
 };
+
+export const updateKontenWebsite = async (
+  data: { id: number; key: string; value: string }[],
+  token: string
+): Promise<ApiResponse> => {
+  try {
+    const response = await api.patch<ApiResponse>("/website/key", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.data.success) throw response.data;
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};
