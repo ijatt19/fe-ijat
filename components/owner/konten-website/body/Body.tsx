@@ -29,10 +29,8 @@ function Body({ token }: { token: string }) {
 
   if (!data) return null;
 
-  console.log(data);
-
   return (
-    <div>
+    <div className="flex flex-col gap-y-8">
       {data && data !== null
         ? data.sections.map((item, index) => {
             return (

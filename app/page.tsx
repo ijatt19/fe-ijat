@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { api } from "@/lib/axios";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 
 export default function Home() {
   const router = useRouter();

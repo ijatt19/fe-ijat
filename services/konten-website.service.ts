@@ -1,5 +1,10 @@
 import { api } from "@/lib/axios";
-import { ApiResponse, BodyKonten, HeaderKonten } from "@/types/api";
+import {
+  ApiResponse,
+  BodyKonten,
+  FooterKonten,
+  HeaderKonten,
+} from "@/types/api";
 import { AxiosError } from "axios";
 
 export const getDataHeaderKonten = async (
@@ -41,6 +46,36 @@ export const getDataBodyKonten = async (
         Authorization: `Bearer ${token}`,
       },
     });
+
+    if (!response.data.success) {
+      throw response.data;
+    }
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};
+
+export const getDataFooterKonten = async (
+  token: string
+): Promise<ApiResponse<FooterKonten>> => {
+  try {
+    const response = await api.get<ApiResponse<FooterKonten>>(
+      `/website/footer`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.data.success) {
       throw response.data;

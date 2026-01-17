@@ -35,8 +35,10 @@ function UpdateKey({
     register,
     handleSubmit,
     control,
+    setValue,
     reset,
     resetField,
+    watch,
     formState: { errors, isDirty },
   } = useForm<UpdateKontenWebsiteValues>({
     resolver: zodResolver(updateKontenWebsiteSchema),
@@ -65,7 +67,16 @@ function UpdateKey({
         value: item.value,
       })),
     });
-  }, [data]);
+  }, [data, reset]);
+
+  const findIndexByKey = (key: string) =>
+    fields.findIndex((item) => item.key === key);
+
+  const latIndex = findIndexByKey("latitude-footer");
+  const lngIndex = findIndexByKey("longitude-footer");
+
+  const latitude = latIndex !== -1 ? watch(`items.${latIndex}.value`) : "";
+  const longitude = lngIndex !== -1 ? watch(`items.${lngIndex}.value`) : "";
 
   const mutation = useMutation({
     mutationFn: async (values: UpdateKontenWebsiteValues) => {
@@ -78,8 +89,6 @@ function UpdateKey({
       queryClient.invalidateQueries({
         queryKey: [query],
       });
-      reset();
-      resetField("items");
     },
     onError: async (error: ErrorResponse) => {
       if (error.statusCode === 401) {
@@ -96,27 +105,46 @@ function UpdateKey({
 
   return (
     <div>
-      <h2 className="text-xl mb-4">Navbar</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
           <FieldGroup>
-            {fields.map((field, index) => (
-              <Field key={field.id}>
-                <FieldLabel htmlFor={`items.${index}.value`}>
-                  {field.key.replace(/section-(\d+)/, "").replace("-", "")}
-                </FieldLabel>
+            {latitude && longitude && (
+              <iframe
+                src={`https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`}
+                width="100%"
+                height="300"
+                loading="lazy"
+                className="rounded"
+              />
+            )}
+            <Field>
+              <FieldLabel htmlFor="koordinat">Koordinat</FieldLabel>
 
-                <Input
-                  id={`items.${index}.value`}
-                  disabled={mutation.isPending}
-                  autoComplete="off"
-                  {...register(`items.${index}.value`)}
-                />
-                {errors.items?.message && (
-                  <FieldError>{errors.items?.message}</FieldError>
-                )}
-              </Field>
-            ))}
+              <Input
+                id="koordinat"
+                placeholder="Latitude, Longitude"
+                defaultValue={
+                  latitude && longitude ? `${latitude}, ${longitude}` : ""
+                }
+                onBlur={(e) => {
+                  const [lat, lng] = e.target.value
+                    .split(",")
+                    .map((v) => v.trim());
+
+                  if (latIndex !== -1 && lat) {
+                    setValue(`items.${latIndex}.value`, lat, {
+                      shouldDirty: true,
+                    });
+                  }
+
+                  if (lngIndex !== -1 && lng) {
+                    setValue(`items.${lngIndex}.value`, lng, {
+                      shouldDirty: true,
+                    });
+                  }
+                }}
+              />
+            </Field>
             <Button
               type="submit"
               disabled={mutation.isPending || !isDirty}
