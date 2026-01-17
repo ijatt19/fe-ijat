@@ -1,17 +1,32 @@
 "use client";
 
 import ForceClose from "@/components/ForceClose";
-import { getDataBodyKonten } from "@/services/konten-website.service";
-import { BodyKonten, ErrorResponse } from "@/types/api";
+import {
+  getDataBodyKonten,
+  getDataFiturUnggulan,
+} from "@/services/konten-website.service";
+import { BodyKonten, ErrorResponse, FiturUnggulan } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import UpdateImage from "../UpdateImage";
 import UpdateKey from "../UpdateKey";
+import FiturUpdate from "./FiturUpdate";
 
 function Body({ token }: { token: string }) {
   const { data, isLoading, error } = useQuery<BodyKonten, ErrorResponse>({
     queryKey: ["body-konten"],
     queryFn: async () => {
       const res = await getDataBodyKonten(token);
+      if (!res.success || !("data" in res)) throw res;
+
+      return res.data;
+    },
+    retry: false,
+  });
+
+  const fitur = useQuery<FiturUnggulan[], ErrorResponse>({
+    queryKey: ["fitur-unggulan"],
+    queryFn: async () => {
+      const res = await getDataFiturUnggulan(token);
       if (!res.success || !("data" in res)) throw res;
 
       return res.data;
@@ -28,6 +43,16 @@ function Body({ token }: { token: string }) {
   if (isLoading) return <div>Loading</div>;
 
   if (!data) return null;
+
+  if (fitur.error) {
+    if (fitur.error.statusCode === 401) return <ForceClose />;
+
+    return <div>{fitur.error.message}</div>;
+  }
+
+  if (fitur.isLoading) return <div>Loading</div>;
+
+  if (!fitur.data) return null;
 
   return (
     <div className="flex flex-col gap-y-8">
@@ -56,6 +81,8 @@ function Body({ token }: { token: string }) {
             );
           })
         : null}
+
+      <FiturUpdate data={fitur.data} token={token} query="fitur-unggulan" />
     </div>
   );
 }

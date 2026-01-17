@@ -2,13 +2,14 @@ import { api } from "@/lib/axios";
 import {
   ApiResponse,
   BodyKonten,
+  FiturUnggulan,
   FooterKonten,
   HeaderKonten,
 } from "@/types/api";
 import { AxiosError } from "axios";
 
 export const getDataHeaderKonten = async (
-  token: string
+  token: string,
 ): Promise<ApiResponse<HeaderKonten>> => {
   try {
     const response = await api.get<ApiResponse<HeaderKonten>>(
@@ -17,7 +18,7 @@ export const getDataHeaderKonten = async (
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     if (!response.data.success) {
@@ -38,7 +39,7 @@ export const getDataHeaderKonten = async (
 };
 
 export const getDataBodyKonten = async (
-  token: string
+  token: string,
 ): Promise<ApiResponse<BodyKonten>> => {
   try {
     const response = await api.get<ApiResponse<BodyKonten>>(`/website/body`, {
@@ -64,8 +65,38 @@ export const getDataBodyKonten = async (
   }
 };
 
+export const getDataFiturUnggulan = async (
+  token: string,
+): Promise<ApiResponse<FiturUnggulan[]>> => {
+  try {
+    const response = await api.get<ApiResponse<FiturUnggulan[]>>(
+      `/website/fitur`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    if (!response.data.success) {
+      throw response.data;
+    }
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};
+
 export const getDataFooterKonten = async (
-  token: string
+  token: string,
 ): Promise<ApiResponse<FooterKonten>> => {
   try {
     const response = await api.get<ApiResponse<FooterKonten>>(
@@ -74,7 +105,7 @@ export const getDataFooterKonten = async (
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     if (!response.data.success) {
@@ -96,7 +127,7 @@ export const getDataFooterKonten = async (
 
 export const updateLogo = async (
   token: string,
-  data: { idImage: string; name: string; file: File }
+  data: { idImage: string; name: string; file: File },
 ): Promise<ApiResponse> => {
   try {
     const formData = new FormData();
@@ -126,7 +157,7 @@ export const updateLogo = async (
 
 export const updateImage = async (
   token: string,
-  data: { idImage: string; name: string; file: File }
+  data: { idImage: string; name: string; file: File },
 ): Promise<ApiResponse> => {
   try {
     const formData = new FormData();
@@ -156,7 +187,7 @@ export const updateImage = async (
 
 export const updateKontenWebsite = async (
   data: { id: number; key: string; value: string }[],
-  token: string
+  token: string,
 ): Promise<ApiResponse> => {
   try {
     const response = await api.patch<ApiResponse>("/website/key", data, {
@@ -164,6 +195,66 @@ export const updateKontenWebsite = async (
         Authorization: `Bearer ${token}`,
       },
     });
+
+    if (!response.data.success) throw response.data;
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};
+
+export const updateFiturUnggulan = async (
+  data: { id: number; deskripsi: string; tampilan: boolean },
+  token: string,
+): Promise<ApiResponse> => {
+  try {
+    const response = await api.patch<ApiResponse>("/website/fitur", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.data.success) throw response.data;
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};
+
+export const updateImageFitur = async (
+  token: string,
+  data: { idIkon: string; name: string; file: File },
+): Promise<ApiResponse> => {
+  try {
+    const formData = new FormData();
+    formData.append("idIkon", data.idIkon);
+    formData.append("name", data.name);
+    formData.append("file", data.file);
+    const response = await api.patch<ApiResponse>(
+      `/website/fitur/image`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
 
     if (!response.data.success) throw response.data;
 

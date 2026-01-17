@@ -2,9 +2,9 @@
 import { getDataFooterKonten } from "@/services/konten-website.service";
 import { ErrorResponse, FooterKonten } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
-import UpdateKey from "../UpdateKey";
 import ForceClose from "@/components/ForceClose";
 import UpdateKeyFooter from "./UpdateKeyFooter";
+import UpdateKeyMap from "./UpdateKeyMap";
 
 function Footer({ token }: { token: string }) {
   const { data, isLoading, error } = useQuery<FooterKonten, ErrorResponse>({
@@ -41,7 +41,7 @@ function Footer({ token }: { token: string }) {
       </div>
       <div className="shadow rounded p-2 flex flex-col gap-y-4">
         <h2 className="text-xl">Maps</h2>
-        <UpdateKey data={data.maps} query="footer-konten" token={token} />
+        <UpdateKeyMap data={data.maps} query="footer-konten" token={token} />
       </div>
     </div>
   );

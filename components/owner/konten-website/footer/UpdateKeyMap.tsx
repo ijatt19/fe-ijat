@@ -22,7 +22,7 @@ import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-function UpdateKey({
+function UpdateKeyMap({
   data,
   query,
   token,
@@ -35,7 +35,10 @@ function UpdateKey({
     register,
     handleSubmit,
     control,
+    setValue,
     reset,
+    resetField,
+    watch,
     formState: { errors, isDirty },
   } = useForm<UpdateKontenWebsiteValues>({
     resolver: zodResolver(updateKontenWebsiteSchema),
@@ -65,6 +68,15 @@ function UpdateKey({
       })),
     });
   }, [data, reset]);
+
+  const findIndexByKey = (key: string) =>
+    fields.findIndex((item) => item.key === key);
+
+  const latIndex = findIndexByKey("latitude-footer");
+  const lngIndex = findIndexByKey("longitude-footer");
+
+  const latitude = latIndex !== -1 ? watch(`items.${latIndex}.value`) : "";
+  const longitude = lngIndex !== -1 ? watch(`items.${lngIndex}.value`) : "";
 
   const mutation = useMutation({
     mutationFn: async (values: UpdateKontenWebsiteValues) => {
@@ -96,23 +108,43 @@ function UpdateKey({
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
           <FieldGroup>
-            {fields.map((field, index) => (
-              <Field key={index}>
-                <FieldLabel htmlFor={field.key}>
-                  {field.key.replace(/section-(\d+)/, "").replace("-", "")}
-                </FieldLabel>
+            {latitude && longitude && (
+              <iframe
+                src={`https://www.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`}
+                width="100%"
+                height="300"
+                loading="lazy"
+                className="rounded"
+              />
+            )}
+            <Field>
+              <FieldLabel htmlFor="koordinat">Koordinat</FieldLabel>
 
-                <Input
-                  id={field.key}
-                  disabled={mutation.isPending}
-                  autoComplete="off"
-                  {...register(`items.${index}.value`)}
-                />
-                {errors.items?.message && (
-                  <FieldError>{errors.items?.message}</FieldError>
-                )}
-              </Field>
-            ))}
+              <Input
+                id="koordinat"
+                placeholder="Latitude, Longitude"
+                defaultValue={
+                  latitude && longitude ? `${latitude}, ${longitude}` : ""
+                }
+                onBlur={(e) => {
+                  const [lat, lng] = e.target.value
+                    .split(",")
+                    .map((v) => v.trim());
+
+                  if (latIndex !== -1 && lat) {
+                    setValue(`items.${latIndex}.value`, lat, {
+                      shouldDirty: true,
+                    });
+                  }
+
+                  if (lngIndex !== -1 && lng) {
+                    setValue(`items.${lngIndex}.value`, lng, {
+                      shouldDirty: true,
+                    });
+                  }
+                }}
+              />
+            </Field>
             <Button
               type="submit"
               disabled={mutation.isPending || !isDirty}
@@ -127,4 +159,4 @@ function UpdateKey({
   );
 }
 
-export default UpdateKey;
+export default UpdateKeyMap;

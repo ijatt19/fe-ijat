@@ -48,6 +48,15 @@ export interface HeaderKonten {
 export interface BodyKonten {
   sections: [{ image: Konten; title: Konten; description: Konten }];
 }
+
+export interface FiturUnggulan {
+  id: number;
+  deskripsi: string;
+  ikon: string;
+  idIkon: string;
+  tampilan: boolean;
+}
+
 export interface FooterKonten {
   sections: Konten[];
   maps: Konten[];
