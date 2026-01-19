@@ -12,7 +12,7 @@ export default async function BarangJadiPage() {
     <div className="flex flex-col gap-y-8">
       <div className="flex items-end gap-x-4 md:w-2/3">
         <SearchBarangJadi />
-        <TambahBarang />
+        <TambahBarang token={session.user.token} />
       </div>
       <NavDataMaster />
     </div>
