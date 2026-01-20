@@ -102,7 +102,7 @@ function UpdateBarangJadi({
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button className="bg-primary-green">Ubah</Button>
+        <Button className="bg-primary-orange">Ubah</Button>
       </DialogTrigger>
       <DialogContent className="w-[90%] h-[90%] max-w-none md:h-auto md:max-w-lg overflow-auto">
         <form
@@ -244,7 +244,7 @@ function UpdateBarangJadi({
             <Button
               disabled={mutation.isPending || !isDirty}
               type="submit"
-              className="bg-primary-green"
+              className="bg-primary-orange"
             >
               {mutation.isPending ? "Menyimpan" : "Ubah"}
             </Button>

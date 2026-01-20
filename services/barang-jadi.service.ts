@@ -85,3 +85,29 @@ export const getAllBarangJadi = async (token: string): Promise<ApiResponse> => {
     };
   }
 };
+
+export const deleteOneBarangJadi = async (
+  id: number,
+  token: string,
+): Promise<ApiResponse> => {
+  try {
+    const response = await api.delete<ApiResponse>(`/barang-jadi/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.data.success) throw response.data;
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};
