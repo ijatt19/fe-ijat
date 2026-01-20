@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import SearchBarangJadi from "@/components/owner/data-master/barang/barang-jadi/SearchBarangJadi";
+import TableBarangJadi from "@/components/owner/data-master/barang/barang-jadi/TableBarangJadi";
 import TambahBarang from "@/components/owner/data-master/barang/barang-jadi/TambahBarang";
 import NavDataMaster from "@/components/owner/data-master/barang/NavDataMaster";
 import { redirect } from "next/navigation";
@@ -15,6 +16,7 @@ export default async function BarangJadiPage() {
         <TambahBarang token={session.user.token} />
       </div>
       <NavDataMaster />
+      <TableBarangJadi token={session.user.token} />
     </div>
   );
 }

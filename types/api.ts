@@ -61,3 +61,17 @@ export interface FooterKonten {
   sections: Konten[];
   maps: Konten[];
 }
+
+export interface BarangJadiVarian {
+  id: string;
+  jenisPacking: string;
+  hargaModal: number;
+  hargaJual: number;
+}
+
+export interface BarangJadi {
+  id: number;
+  kode: string;
+  name: string;
+  varians: BarangJadiVarian[];
+}

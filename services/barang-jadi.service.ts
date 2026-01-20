@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios";
 import { TambahBarangJadiValues } from "@/lib/schemas/barang-jadi";
-import { ApiResponse } from "@/types/api";
+import { ApiResponse, BarangJadi } from "@/types/api";
 import { AxiosError } from "axios";
 
 export const createBarangJadi = async (
@@ -9,6 +9,29 @@ export const createBarangJadi = async (
 ): Promise<ApiResponse> => {
   try {
     const response = await api.post<ApiResponse>("/barang-jadi", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.data.success) throw response.data;
+
+    return response.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};
+
+export const getAllBarangJadi = async (token: string): Promise<ApiResponse> => {
+  try {
+    const response = await api.get<ApiResponse<BarangJadi[]>>("/barang-jadi", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
