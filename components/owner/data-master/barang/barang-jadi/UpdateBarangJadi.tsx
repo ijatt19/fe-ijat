@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -17,60 +18,73 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
-  tambahBarangJadiSchema,
-  TambahBarangJadiValues,
+  updateBarangJadiSchema,
+  UpdateBarangJadiValues,
 } from "@/lib/schemas/barang-jadi";
-import { createBarangJadi } from "@/services/barang-jadi.service";
-import { ErrorResponse } from "@/types/api";
+import { updateBarangJadi } from "@/services/barang-jadi.service";
+import { BarangJadi, BarangJadiVarian, ErrorResponse } from "@/types/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DialogClose } from "@radix-ui/react-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-function TambahBarang({ token }: { token: string }) {
+function UpdateBarangJadi({
+  data,
+  token,
+  query,
+}: {
+  data: BarangJadi;
+  token: string;
+  query: string;
+}) {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
-  } = useForm<TambahBarangJadiValues>({
-    resolver: zodResolver(tambahBarangJadiSchema),
+    formState: { errors, isDirty },
+  } = useForm<UpdateBarangJadiValues>({
+    resolver: zodResolver(updateBarangJadiSchema),
     defaultValues: {
-      name: "",
-      varians: [
-        {
-          jenisPacking: "curah",
-          hargaModal: 0,
-          hargaJual: 0,
-        },
-        {
-          jenisPacking: "susun",
-          hargaModal: 0,
-          hargaJual: 0,
-        },
-      ],
+      name: data.name,
+      varians: data.varians.map((item) => ({
+        id: item.id,
+        hargaJual: item.hargaJual,
+        hargaModal: item.hargaModal,
+        jenisPacking: item.jenisPacking,
+      })),
     },
   });
 
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+
   const queryClient = useQueryClient();
-  const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    if (!data) return;
+    reset({
+      name: data.name,
+      varians: data.varians.map((item) => ({
+        id: item.id,
+        hargaJual: item.hargaJual,
+        hargaModal: item.hargaModal,
+        jenisPacking: item.jenisPacking,
+      })),
+    });
+  }, [data, reset]);
 
   const mutation = useMutation({
-    mutationFn: async (values: TambahBarangJadiValues) => {
-      return await createBarangJadi(values, token);
+    mutationFn: async (value: UpdateBarangJadiValues) => {
+      return await updateBarangJadi(data.id, value, token);
     },
     onSuccess: (response) => {
       if (!response.success) throw response;
 
       toast.success(response.message);
       queryClient.invalidateQueries({
-        queryKey: ["barang-jadi"],
+        queryKey: [query],
       });
-      reset();
-      setOpenDialog(false);
     },
     onError: async (error: ErrorResponse) => {
       if (error.statusCode === 401) {
@@ -81,14 +95,14 @@ function TambahBarang({ token }: { token: string }) {
     },
   });
 
-  const onSubmit = (data: TambahBarangJadiValues) => {
+  const onSubmit = (data: UpdateBarangJadiValues) => {
     mutation.mutate(data);
   };
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       <DialogTrigger asChild>
-        <Button className="bg-primary-green">Tambah</Button>
+        <Button className="bg-primary-green">Ubah</Button>
       </DialogTrigger>
       <DialogContent className="w-[90%] h-[90%] max-w-none md:h-auto md:max-w-lg overflow-auto">
         <form
@@ -96,7 +110,7 @@ function TambahBarang({ token }: { token: string }) {
           className="flex flex-col gap-y-4"
         >
           <DialogHeader>
-            <DialogTitle>Tambah Barang Baru</DialogTitle>
+            <DialogTitle>Ubah {data.name}</DialogTitle>
           </DialogHeader>
           <FieldSet>
             <FieldGroup>
@@ -124,7 +138,7 @@ function TambahBarang({ token }: { token: string }) {
                   <FieldLabel htmlFor="kode" className="font-normal">
                     Kode Barang :
                   </FieldLabel>
-                  <p className="underline text-slate-500">Otomatis</p>
+                  <p className="underline text-slate-500">{data.kode}</p>
                 </div>
               </Field>
               <p className="text-base font-semibold">Detail Selengkapnya</p>
@@ -228,11 +242,11 @@ function TambahBarang({ token }: { token: string }) {
               </Button>
             </DialogClose>
             <Button
-              disabled={mutation.isPending}
+              disabled={mutation.isPending || !isDirty}
               type="submit"
               className="bg-primary-green"
             >
-              {mutation.isPending ? "Menyimpan" : "Simpan"}
+              {mutation.isPending ? "Menyimpan" : "Ubah"}
             </Button>
           </DialogFooter>
         </form>
@@ -241,4 +255,4 @@ function TambahBarang({ token }: { token: string }) {
   );
 }
 
-export default TambahBarang;
+export default UpdateBarangJadi;

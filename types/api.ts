@@ -63,8 +63,8 @@ export interface FooterKonten {
 }
 
 export interface BarangJadiVarian {
-  id: string;
-  jenisPacking: string;
+  id: number;
+  jenisPacking: "curah" | "susun";
   hargaModal: number;
   hargaJual: number;
 }

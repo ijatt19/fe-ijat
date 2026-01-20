@@ -14,6 +14,7 @@ import { getAllBarangJadi } from "@/services/barang-jadi.service";
 import { BarangJadi, ErrorResponse } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import LihatBarangJadi from "./LihatBarangJadi";
+import UpdateBarangJadi from "./UpdateBarangJadi";
 
 function TableBarangJadi({ token }: { token: string }) {
   const { data, isLoading, error } = useQuery<BarangJadi[], ErrorResponse>({
@@ -35,7 +36,6 @@ function TableBarangJadi({ token }: { token: string }) {
   }
 
   if (isLoading) return <div>Loading</div>;
-  console.log(data);
 
   if (!data) return null;
   return (
@@ -58,6 +58,11 @@ function TableBarangJadi({ token }: { token: string }) {
                 <TableCell>0</TableCell>
                 <TableCell>
                   <LihatBarangJadi data={item} />
+                  <UpdateBarangJadi
+                    data={item}
+                    token={token}
+                    query="barang-jadi"
+                  />
                 </TableCell>
               </TableRow>
             ))
