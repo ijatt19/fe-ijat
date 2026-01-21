@@ -75,3 +75,11 @@ export interface BarangJadi {
   name: string;
   varians: BarangJadiVarian[];
 }
+
+export interface BahanMentah {
+  id: number;
+  kode: string;
+  name: string;
+  satuan: string;
+  batasMinimum: number;
+}

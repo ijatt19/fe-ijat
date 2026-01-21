@@ -22,7 +22,7 @@ import {
   UpdateBarangJadiValues,
 } from "@/lib/schemas/barang-jadi";
 import { updateBarangJadi } from "@/services/barang-jadi.service";
-import { BarangJadi, BarangJadiVarian, ErrorResponse } from "@/types/api";
+import { BarangJadi, ErrorResponse } from "@/types/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
