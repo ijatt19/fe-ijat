@@ -63,12 +63,16 @@ export const updateBarangJadi = async (
   }
 };
 
-export const getAllBarangJadi = async (token: string): Promise<ApiResponse> => {
+export const getAllBarangJadi = async (
+  token: string,
+  search?: string,
+): Promise<ApiResponse> => {
   try {
     const response = await api.get<ApiResponse<BarangJadi[]>>("/barang-jadi", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params: search ? { search: search } : undefined,
     });
 
     if (!response.data.success) throw response.data;

@@ -16,12 +16,20 @@ import { useQuery } from "@tanstack/react-query";
 import LihatBarangJadi from "./LihatBarangJadi";
 import UpdateBarangJadi from "./UpdateBarangJadi";
 import DeleteBarangJadi from "./DeleteBarangJadi";
+import { useDebounce } from "@/hooks/useDebounce";
 
-function TableBarangJadi({ token }: { token: string }) {
+function TableBarangJadi({
+  token,
+  keyword,
+}: {
+  token: string;
+  keyword: string;
+}) {
+  const debouncedKeyword = useDebounce(keyword, 300);
   const { data, isLoading, error } = useQuery<BarangJadi[], ErrorResponse>({
-    queryKey: ["barang-jadi"],
+    queryKey: ["barang-jadi", debouncedKeyword],
     queryFn: async () => {
-      const res = await getAllBarangJadi(token);
+      const res = await getAllBarangJadi(token, debouncedKeyword);
 
       if (!res.success || !("data" in res)) throw res;
 
@@ -36,13 +44,14 @@ function TableBarangJadi({ token }: { token: string }) {
     return <div>{error.message}</div>;
   }
 
-  if (isLoading) return <div>Loading</div>;
+  if (isLoading)
+    return <div className="text-sm text-gray-500">Data tidak ditemukan</div>;
 
   if (!data) return null;
 
   return (
     <div>
-      <Table className="text-center">
+      <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Kode Barang</TableHead>
@@ -58,7 +67,7 @@ function TableBarangJadi({ token }: { token: string }) {
                 <TableCell>{item.kode}</TableCell>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>0</TableCell>
-                <TableCell>
+                <TableCell className="flex items-center gap-x-4">
                   <LihatBarangJadi data={item} />
                   <UpdateBarangJadi
                     data={item}
