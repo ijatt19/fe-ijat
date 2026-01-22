@@ -13,6 +13,7 @@ import { ErrorResponse, Karyawan } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import LihatKaryawan from "./LihatKaryawan";
 import UpdateKaryawan from "./UpdateKaryawan";
+import DeleteKaryawan from "./DeleteKaryawan";
 
 function TableKaryawan({ keyword, token }: { keyword: string; token: string }) {
   const debouncedKeyword = useDebounce(keyword, 300);
@@ -64,7 +65,7 @@ function TableKaryawan({ keyword, token }: { keyword: string; token: string }) {
                 <TableCell className="flex items-center gap-x-4">
                   <LihatKaryawan data={item} />
                   <UpdateKaryawan data={item} token={token} query="karyawan" />
-                  {/* <DeleteBahanMentah data={item} token={token} /> */}
+                  <DeleteKaryawan data={item} token={token} />
                 </TableCell>
               </TableRow>
             ))
