@@ -3,6 +3,7 @@
 import { useState } from "react";
 import SearchKaryawan from "./SearchKaryawan";
 import TambahKaryawan from "./TambahKaryawan";
+import NavMesinKaryawan from "../NavMesinKaryawan";
 
 function ContainerKaryawan({ token }: { token: string }) {
   const [keyword, setKeyword] = useState("");
@@ -12,6 +13,7 @@ function ContainerKaryawan({ token }: { token: string }) {
         <SearchKaryawan value={keyword} onChange={setKeyword} />
         <TambahKaryawan token={token} />
       </div>
+      <NavMesinKaryawan />
     </div>
   );
 }
