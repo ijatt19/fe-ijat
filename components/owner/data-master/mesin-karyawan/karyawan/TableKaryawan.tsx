@@ -11,6 +11,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { getAllKaryawan } from "@/services/karyawan.service";
 import { ErrorResponse, Karyawan } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
+import LihatKaryawan from "./LihatKaryawan";
 
 function TableKaryawan({ keyword, token }: { keyword: string; token: string }) {
   const debouncedKeyword = useDebounce(keyword, 300);
@@ -60,7 +61,7 @@ function TableKaryawan({ keyword, token }: { keyword: string; token: string }) {
                 <TableCell>{item.alamat}</TableCell>
                 <TableCell>{item.jabatan}</TableCell>
                 <TableCell className="flex items-center gap-x-4">
-                  {/* <LihatBahanMentah data={item} /> */}
+                  <LihatKaryawan data={item} />
                   {/* <UpdateBahanMentah
                     data={item}
                     token={token}
