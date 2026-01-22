@@ -4,6 +4,7 @@ import { useState } from "react";
 import SearchKaryawan from "./SearchKaryawan";
 import TambahKaryawan from "./TambahKaryawan";
 import NavMesinKaryawan from "../NavMesinKaryawan";
+import TableKaryawan from "./TableKaryawan";
 
 function ContainerKaryawan({ token }: { token: string }) {
   const [keyword, setKeyword] = useState("");
@@ -14,6 +15,7 @@ function ContainerKaryawan({ token }: { token: string }) {
         <TambahKaryawan token={token} />
       </div>
       <NavMesinKaryawan />
+      <TableKaryawan keyword={keyword} token={token} />
     </div>
   );
 }

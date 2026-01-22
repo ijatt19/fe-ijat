@@ -83,3 +83,13 @@ export interface BahanMentah {
   satuan: string;
   batasMinimum: number;
 }
+
+export interface Karyawan {
+  id: number;
+  namaDepan: string;
+  namaBelakang: string;
+  noHp: string;
+  alamat: string;
+  jabatan: string;
+  status: string;
+}
