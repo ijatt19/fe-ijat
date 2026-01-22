@@ -91,5 +91,5 @@ export interface Karyawan {
   noHp: string;
   alamat: string;
   jabatan: string;
-  status: string;
+  status: "aktif" | "nonaktif";
 }

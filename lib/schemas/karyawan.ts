@@ -15,3 +15,20 @@ export const createKaryawanSchema = z.object({
 });
 
 export type CreateKaryawanValues = z.infer<typeof createKaryawanSchema>;
+
+export const updateKaryawanSchema = z.object({
+  namaDepan: z.string().optional(),
+  namaBelakang: z.string().optional(),
+  noHp: z
+    .string()
+    .regex(
+      /^(?:\+62|08)[1-9][0-9]{7,11}$/,
+      "No HP harus format 08xxxxxxxxxx atau +628xxxxxxxxx",
+    )
+    .optional(),
+  alamat: z.string().optional(),
+  jabatan: z.string().optional(),
+  status: z.enum(["aktif", "nonaktif"], "Invalid status").optional(),
+});
+
+export type UpdateKaryawanValues = z.infer<typeof updateKaryawanSchema>;

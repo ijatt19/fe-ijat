@@ -12,11 +12,12 @@ import { getAllKaryawan } from "@/services/karyawan.service";
 import { ErrorResponse, Karyawan } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import LihatKaryawan from "./LihatKaryawan";
+import UpdateKaryawan from "./UpdateKaryawan";
 
 function TableKaryawan({ keyword, token }: { keyword: string; token: string }) {
   const debouncedKeyword = useDebounce(keyword, 300);
   const { data, isLoading, error } = useQuery<Karyawan[], ErrorResponse>({
-    queryKey: ["bahan-mentah", debouncedKeyword],
+    queryKey: ["karyawan", debouncedKeyword],
     queryFn: async () => {
       const res = await getAllKaryawan(token, debouncedKeyword);
 
@@ -62,11 +63,7 @@ function TableKaryawan({ keyword, token }: { keyword: string; token: string }) {
                 <TableCell>{item.jabatan}</TableCell>
                 <TableCell className="flex items-center gap-x-4">
                   <LihatKaryawan data={item} />
-                  {/* <UpdateBahanMentah
-                    data={item}
-                    token={token}
-                    query="bahan-mentah"
-                  /> */}
+                  <UpdateKaryawan data={item} token={token} query="karyawan" />
                   {/* <DeleteBahanMentah data={item} token={token} /> */}
                 </TableCell>
               </TableRow>

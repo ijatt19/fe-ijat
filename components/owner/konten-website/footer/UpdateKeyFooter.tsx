@@ -123,7 +123,7 @@ function UpdateKeyFooter({
                       render={({ field }) => (
                         <Select
                           disabled={mutation.isPending}
-                          value={field.value} // ⬅️ KUNCI UTAMA
+                          value={field.value}
                           onValueChange={(value) => {
                             field.onChange(value);
                           }}
