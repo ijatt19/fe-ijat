@@ -60,7 +60,10 @@ function TopbarOwner({ user }: TopbarOwnerProps) {
       imagePath: "/data-master.svg",
       children: [
         { name: "Barang", location: "/data-master/barang-jadi" },
-        { name: "Mesin & Karyawan", location: "/data-master/mesin-karyawan" },
+        {
+          name: "Mesin & Karyawan",
+          location: "/data-master/karyawan",
+        },
         { name: "Supplier", location: "/data-master/supplier" },
         { name: "Akun", location: "/data-master/akun" },
       ],
