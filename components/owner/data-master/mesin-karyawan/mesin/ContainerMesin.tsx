@@ -3,6 +3,8 @@
 import { useState } from "react";
 import SearchMesin from "./SearchMesin";
 import TambahMesin from "./TambahMesin";
+import NavMesinKaryawan from "../NavMesinKaryawan";
+import TableMesin from "./TableMesin";
 
 function ContainerMesin({ token }: { token: string }) {
   const [keyword, setKeyword] = useState("");
@@ -12,8 +14,8 @@ function ContainerMesin({ token }: { token: string }) {
         <SearchMesin value={keyword} onChange={setKeyword} />
         <TambahMesin token={token} />
       </div>
-      {/* <NavMesinKaryawan /> */}
-      {/* <TableKaryawan keyword={keyword} token={token} /> */}
+      <NavMesinKaryawan />
+      <TableMesin keyword={keyword} token={token} />
     </div>
   );
 }

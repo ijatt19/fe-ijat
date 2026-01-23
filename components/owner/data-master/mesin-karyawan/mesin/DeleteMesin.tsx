@@ -8,26 +8,26 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { deleteKaryawan } from "@/services/karyawan.service";
-import { ErrorResponse, Karyawan } from "@/types/api";
+import { deleteMesin } from "@/services/mesin.service";
+import { ErrorResponse, Mesin } from "@/types/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 
-function DeleteKaryawan({ data, token }: { data: Karyawan; token: string }) {
+function DeleteMesin({ data, token }: { data: Mesin; token: string }) {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async () => {
-      return await deleteKaryawan(data.id, token);
+      return await deleteMesin(data.id, token);
     },
     onSuccess: (response) => {
       if (!response.success) throw response;
 
       toast.success(response.message);
       queryClient.invalidateQueries({
-        queryKey: ["karyawan"],
+        queryKey: ["mesin"],
       });
       setOpenDialog(false);
     },
@@ -51,7 +51,7 @@ function DeleteKaryawan({ data, token }: { data: Karyawan; token: string }) {
       <DialogContent>
         <form onSubmit={onSubmit} className="flex flex-col gap-y-4">
           <DialogHeader>
-            <DialogTitle>Hapus {data.namaDepan}</DialogTitle>
+            <DialogTitle>Hapus {data.nama}</DialogTitle>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>
@@ -76,4 +76,4 @@ function DeleteKaryawan({ data, token }: { data: Karyawan; token: string }) {
   );
 }
 
-export default DeleteKaryawan;
+export default DeleteMesin;

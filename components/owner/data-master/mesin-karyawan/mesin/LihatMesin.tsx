@@ -10,9 +10,10 @@ import {
 } from "@/components/ui/dialog";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Karyawan } from "@/types/api";
+import { Textarea } from "@/components/ui/textarea";
+import { Mesin } from "@/types/api";
 
-function LihatKaryawan({ data }: { data: Karyawan }) {
+function LihatMesin({ data }: { data: Mesin }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -21,97 +22,79 @@ function LihatKaryawan({ data }: { data: Karyawan }) {
       <DialogContent className="overflow-auto">
         <form className="flex flex-col gap-y-4">
           <DialogHeader>
-            <DialogTitle>Data {data.namaDepan}</DialogTitle>
+            <DialogTitle>{data.nama}</DialogTitle>
           </DialogHeader>
           <FieldSet>
             <FieldGroup>
               <Field>
                 <div className="flex items-center w-full text-xs">
                   <FieldLabel
-                    htmlFor="namaDepan"
+                    htmlFor="nama"
                     className="w-2/3 md:w-1/3 font-normal"
                   >
-                    Nama Depan :
+                    Nama Mesin :
                   </FieldLabel>
                   <Input
                     autoComplete="off"
-                    id="namaDepan"
+                    id="nama"
                     className="w-full"
                     type="text"
                     readOnly
-                    value={data.namaDepan}
+                    value={data.nama}
                   />
                 </div>
               </Field>
               <Field>
                 <div className="flex items-center w-full text-xs">
                   <FieldLabel
-                    htmlFor="namaBelakang"
+                    htmlFor="merk"
                     className="w-2/3 md:w-1/3 font-normal"
                   >
-                    Nama Belakang :
+                    Merk Mesin :
                   </FieldLabel>
                   <Input
                     autoComplete="off"
-                    id="namaBelakang"
+                    id="merk"
                     className="w-full"
                     type="text"
                     readOnly
-                    value={data.namaBelakang}
+                    value={data.merk}
                   />
                 </div>
               </Field>
               <Field>
                 <div className="flex items-center w-full text-xs">
                   <FieldLabel
-                    htmlFor="noHp"
+                    htmlFor="kapasitas"
                     className="w-2/3 md:w-1/3 font-normal"
                   >
-                    No Hp :
+                    Kapasitas Cetak :
                   </FieldLabel>
                   <Input
                     autoComplete="off"
-                    id="noHp"
+                    inputMode="decimal"
+                    id="kapasitas"
                     className="w-full"
                     type="text"
                     readOnly
-                    value={data.noHp}
+                    value={data.kapasitasCetak.replace(/\.?0+$/, "")}
                   />
                 </div>
               </Field>
               <Field>
                 <div className="flex items-center w-full text-xs">
                   <FieldLabel
-                    htmlFor="alamat"
+                    htmlFor="spek"
                     className="w-2/3 md:w-1/3 font-normal"
                   >
-                    Alamat :
+                    Spesifikasi :
                   </FieldLabel>
-                  <Input
+                  <Textarea
                     autoComplete="off"
-                    id="alamat"
+                    id="spek"
                     className="w-full"
-                    type="text"
                     readOnly
-                    value={data.alamat}
-                  />
-                </div>
-              </Field>
-              <Field>
-                <div className="flex items-center w-full text-xs">
-                  <FieldLabel
-                    htmlFor="jabatan"
-                    className="w-2/3 md:w-1/3 font-normal"
-                  >
-                    Jabatan :
-                  </FieldLabel>
-                  <Input
-                    autoComplete="off"
-                    id="jabatan"
-                    className="w-full"
-                    type="text"
-                    readOnly
-                    value={data.jabatan}
+                    value={data.spesifikasi}
                   />
                 </div>
               </Field>
@@ -121,13 +104,12 @@ function LihatKaryawan({ data }: { data: Karyawan }) {
                     htmlFor="status"
                     className="w-2/3 md:w-1/3 font-normal"
                   >
-                    Jabatan :
+                    Status :
                   </FieldLabel>
                   <Input
                     autoComplete="off"
                     id="status"
                     className="w-full"
-                    type="text"
                     readOnly
                     value={data.status}
                   />
@@ -146,4 +128,4 @@ function LihatKaryawan({ data }: { data: Karyawan }) {
   );
 }
 
-export default LihatKaryawan;
+export default LihatMesin;
