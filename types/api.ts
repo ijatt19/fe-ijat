@@ -93,3 +93,19 @@ export interface Karyawan {
   jabatan: string;
   status: "aktif" | "nonaktif";
 }
+
+export enum StatusMesin {
+  AKTIF = "aktif",
+  MAINTENANCE = "maintenance",
+  RUSAK = "rusak",
+}
+
+export interface Mesin {
+  id: number;
+  kode: string;
+  nama: string;
+  merk: string;
+  spesifikasi: string;
+  kapasitasCetak: string;
+  status: StatusMesin;
+}
