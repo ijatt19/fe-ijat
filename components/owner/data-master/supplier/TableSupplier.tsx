@@ -14,6 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import LihatSupplier from "./LihatSupplier";
 import UpdateSupplier from "./UpdateSupplier";
+import DeleteSupplier from "./DeleteSupplier";
 
 function TableSupplier({ keyword, token }: { keyword: string; token: string }) {
   const debouncedKeyword = useDebounce(keyword, 300);
@@ -66,7 +67,7 @@ function TableSupplier({ keyword, token }: { keyword: string; token: string }) {
                 <TableCell className="flex items-center gap-x-4">
                   <LihatSupplier data={item} />
                   <UpdateSupplier data={item} token={token} query="supplier" />
-                  {/* <DeleteKaryawan data={item} token={token} /> */}
+                  <DeleteSupplier data={item} token={token} />
                 </TableCell>
               </TableRow>
             ))
