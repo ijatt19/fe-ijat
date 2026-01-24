@@ -8,19 +8,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useDebounce } from "@/hooks/useDebounce";
-import { getAllSupplier } from "@/services/supplier.service";
-import { ErrorResponse, Supplier } from "@/types/api";
+import { getAllAkun } from "@/services/akun.service";
+import { Akun, ErrorResponse } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
-import LihatSupplier from "./LihatSupplier";
-import UpdateSupplier from "./UpdateSupplier";
-import DeleteSupplier from "./DeleteSupplier";
 
-function TableSupplier({ keyword, token }: { keyword: string; token: string }) {
+function TableAkun({ keyword, token }: { keyword: string; token: string }) {
   const debouncedKeyword = useDebounce(keyword, 300);
-  const { data, isLoading, error } = useQuery<Supplier[], ErrorResponse>({
-    queryKey: ["supplier", debouncedKeyword],
+  const { data, isLoading, error } = useQuery<Akun[], ErrorResponse>({
+    queryKey: ["akun", debouncedKeyword],
     queryFn: async () => {
-      const res = await getAllSupplier(token, debouncedKeyword);
+      const res = await getAllAkun(token, debouncedKeyword);
 
       if (!res.success || !("data" in res)) throw res;
 
@@ -39,17 +36,18 @@ function TableSupplier({ keyword, token }: { keyword: string; token: string }) {
     return <div className="text-sm text-gray-500">Data tidak ditemukan</div>;
 
   if (!data) return null;
+
+  console.log(data);
+
   return (
     <div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Kode</TableHead>
-            <TableHead>Nama Supplier</TableHead>
-            <TableHead>Kategori</TableHead>
-            <TableHead>Alamat</TableHead>
-            <TableHead>No. Hp / WA</TableHead>
-            <TableHead>Contact Person</TableHead>
+            <TableHead>No</TableHead>
+            <TableHead>Username</TableHead>
+            <TableHead>Nama Lengkap</TableHead>
+            <TableHead>Level Akses (Role)</TableHead>
             <TableHead>Aksi</TableHead>
           </TableRow>
         </TableHeader>
@@ -57,16 +55,14 @@ function TableSupplier({ keyword, token }: { keyword: string; token: string }) {
           {data && data.length > 0 ? (
             data.map((item, index) => (
               <TableRow key={index}>
-                <TableCell>{item.kode}</TableCell>
-                <TableCell>{item.nama}</TableCell>
-                <TableCell>{item.kategori}</TableCell>
-                <TableCell>{item.alamat}</TableCell>
-                <TableCell>{item.noHp}</TableCell>
-                <TableCell>{item.contactPerson}</TableCell>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{item.username}</TableCell>
+                <TableCell>{`${item.namaDepan} ${item.namaBelakang}`}</TableCell>
+                <TableCell>{item.role}</TableCell>
                 <TableCell className="flex items-center gap-x-4">
-                  <LihatSupplier data={item} />
-                  <UpdateSupplier data={item} token={token} query="supplier" />
-                  <DeleteSupplier data={item} token={token} />
+                  {/* <LihatSupplier data={item} /> */}
+                  {/* <UpdateSupplier data={item} token={token} query="supplier" /> */}
+                  {/* <DeleteSupplier data={item} token={token} /> */}
                 </TableCell>
               </TableRow>
             ))
@@ -81,4 +77,4 @@ function TableSupplier({ keyword, token }: { keyword: string; token: string }) {
   );
 }
 
-export default TableSupplier;
+export default TableAkun;

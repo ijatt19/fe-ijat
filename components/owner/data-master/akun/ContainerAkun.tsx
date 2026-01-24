@@ -3,6 +3,7 @@
 import { useState } from "react";
 import SearchAkun from "./SearchAkun";
 import TambahAkun from "./TambahAkun";
+import TableAkun from "./TableAkun";
 
 function ContainerAkun({ token }: { token: string }) {
   const [keyword, setKeyword] = useState("");
@@ -12,7 +13,7 @@ function ContainerAkun({ token }: { token: string }) {
         <SearchAkun value={keyword} onChange={setKeyword} />
         <TambahAkun token={token} />
       </div>
-      {/* <TableSupplier keyword={keyword} token={token} /> */}
+      <TableAkun keyword={keyword} token={token} />
     </div>
   );
 }
