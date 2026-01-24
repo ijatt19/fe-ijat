@@ -24,3 +24,26 @@ export const createAkunSchema = z.object({
 });
 
 export type CreateAkunValues = z.infer<typeof createAkunSchema>;
+
+export const updateAkunSchema = z.object({
+  namaDepan: z.string().min(1, "Nama depan harus di isi").optional(),
+
+  namaBelakang: z.string().min(1, "Nama belakang harus di isi").optional(),
+
+  username: z.string().min(1, "Username harus di isi").optional(),
+
+  email: z.email("Format tidak valid").min(1, "Email harus di isi").optional(),
+
+  noHp: z
+    .string()
+    .min(1, "Nama belakang harus di isi")
+    .regex(
+      /^(?:\+62|08)[1-9][0-9]{7,11}$/,
+      "No HP harus format 08xxxxxxxxxx atau +628xxxxxxxxx",
+    )
+    .optional(),
+
+  role: z.nativeEnum(AkunRole, "Role tidak valid").optional(),
+});
+
+export type UpdateAkunValues = z.infer<typeof updateAkunSchema>;

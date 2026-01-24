@@ -11,6 +11,9 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { getAllAkun } from "@/services/akun.service";
 import { Akun, ErrorResponse } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
+import LihatAkun from "./LihatAkun";
+import UpdateAkun from "./UpdateAkun";
+import DeleteAkun from "./DeleteAkun";
 
 function TableAkun({ keyword, token }: { keyword: string; token: string }) {
   const debouncedKeyword = useDebounce(keyword, 300);
@@ -37,8 +40,6 @@ function TableAkun({ keyword, token }: { keyword: string; token: string }) {
 
   if (!data) return null;
 
-  console.log(data);
-
   return (
     <div>
       <Table>
@@ -60,9 +61,9 @@ function TableAkun({ keyword, token }: { keyword: string; token: string }) {
                 <TableCell>{`${item.namaDepan} ${item.namaBelakang}`}</TableCell>
                 <TableCell>{item.role}</TableCell>
                 <TableCell className="flex items-center gap-x-4">
-                  {/* <LihatSupplier data={item} /> */}
-                  {/* <UpdateSupplier data={item} token={token} query="supplier" /> */}
-                  {/* <DeleteSupplier data={item} token={token} /> */}
+                  <LihatAkun data={item} />
+                  <UpdateAkun data={item} token={token} query="akun" />
+                  <DeleteAkun data={item} token={token} />
                 </TableCell>
               </TableRow>
             ))
