@@ -1,6 +1,9 @@
 import { api } from "@/lib/axios";
-import { CreateSupplierValues } from "@/lib/schemas/supplier";
-import { ApiResponse } from "@/types/api";
+import {
+  CreateSupplierValues,
+  UpdateSupplierValues,
+} from "@/lib/schemas/supplier";
+import { ApiResponse, Supplier } from "@/types/api";
 import { AxiosError } from "axios";
 
 export const createSupplier = async (
@@ -29,12 +32,39 @@ export const createSupplier = async (
   }
 };
 
+export const updateSupplier = async (
+  id: number,
+  payload: UpdateSupplierValues,
+  token: string,
+): Promise<ApiResponse> => {
+  try {
+    const res = await api.patch<ApiResponse>(`/supplier/${id}`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.data.success) return res.data;
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};
+
 export const getAllSupplier = async (
   token: string,
   search?: string,
 ): Promise<ApiResponse> => {
   try {
-    const res = await api.get<ApiResponse>("/supplier", {
+    const res = await api.get<ApiResponse<Supplier[]>>("/supplier", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
