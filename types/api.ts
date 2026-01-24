@@ -119,3 +119,18 @@ export interface Supplier {
   noHp: string;
   alamat: string;
 }
+
+export enum AkunRole {
+  STAFF = "staff",
+  OWNER = "owner",
+}
+
+export interface Akun {
+  id: number;
+  namaDepan: string;
+  namaBelakang: string;
+  username: string;
+  email: string;
+  noHp: string;
+  role: AkunRole;
+}
