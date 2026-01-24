@@ -10,7 +10,7 @@ function SearchSupplier({
   return (
     <div className="w-full">
       <Input
-        placeholder="Cari karyawan..."
+        placeholder="Cari Supplier..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />

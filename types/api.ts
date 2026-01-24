@@ -109,3 +109,13 @@ export interface Mesin {
   kapasitasCetak: string;
   status: StatusMesin;
 }
+
+export interface Supplier {
+  id: number;
+  kode: string;
+  nama: string;
+  kategori: string;
+  contactPerson: string;
+  noHp: string;
+  alamat: string;
+}

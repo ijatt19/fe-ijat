@@ -10,7 +10,7 @@ function SearchBahanMentah({
   return (
     <div className="w-full">
       <Input
-        placeholder="Cari barang..."
+        placeholder="Cari bahan..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />

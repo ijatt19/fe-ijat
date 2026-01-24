@@ -28,3 +28,30 @@ export const createSupplier = async (
     };
   }
 };
+
+export const getAllSupplier = async (
+  token: string,
+  search?: string,
+): Promise<ApiResponse> => {
+  try {
+    const res = await api.get<ApiResponse>("/supplier", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: search ? { search: search } : undefined,
+    });
+
+    if (!res.data.success) return res.data;
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.response?.data;
+    }
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan internal (Unknown Error)",
+    };
+  }
+};

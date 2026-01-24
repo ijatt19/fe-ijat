@@ -3,6 +3,7 @@
 import { useState } from "react";
 import SearchSupplier from "./SearchSupplier";
 import TambahSupplier from "./TambahSupplier";
+import TableSupplier from "./TableSupplier";
 
 function ContainerSupplier({ token }: { token: string }) {
   const [keyword, setKeyword] = useState("");
@@ -12,8 +13,7 @@ function ContainerSupplier({ token }: { token: string }) {
         <SearchSupplier value={keyword} onChange={setKeyword} />
         <TambahSupplier token={token} />
       </div>
-      {/* <NavMesinKaryawan /> */}
-      {/* <TableKaryawan keyword={keyword} token={token} /> */}
+      <TableSupplier keyword={keyword} token={token} />
     </div>
   );
 }

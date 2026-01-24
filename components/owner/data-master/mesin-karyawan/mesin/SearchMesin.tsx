@@ -10,7 +10,7 @@ function SearchMesin({
   return (
     <div className="w-full">
       <Input
-        placeholder="Cari karyawan..."
+        placeholder="Cari mesin..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
