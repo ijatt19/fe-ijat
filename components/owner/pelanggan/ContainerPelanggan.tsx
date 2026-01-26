@@ -3,6 +3,7 @@
 import { useState } from "react";
 import SearchPelanggan from "./SearchPelanggan";
 import TambahPelanggan from "./TambahPelanggan";
+import TablePelanggan from "./TablePelanggan";
 
 function ContainerPelanggan({ token }: { token: string }) {
   const [keyword, setKeyword] = useState("");
@@ -12,7 +13,7 @@ function ContainerPelanggan({ token }: { token: string }) {
         <SearchPelanggan value={keyword} onChange={setKeyword} />
         <TambahPelanggan token={token} />
       </div>
-      {/* <TableSupplier keyword={keyword} token={token} /> */}
+      <TablePelanggan keyword={keyword} token={token} />
     </div>
   );
 }

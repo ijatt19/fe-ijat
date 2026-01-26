@@ -134,3 +134,11 @@ export interface Akun {
   noHp: string;
   role: AkunRole;
 }
+
+export interface Pelanggan {
+  id: number;
+  namaDepan: string;
+  namaBelakang?: string;
+  noHp: string;
+  alamat: string;
+}
