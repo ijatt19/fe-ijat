@@ -83,3 +83,28 @@ export const updatePelanggan = async (
     };
   }
 };
+
+export const deletePelanggan = async (
+  id: number,
+  token: string,
+): Promise<ApiResponse> => {
+  try {
+    const res = await api.delete<ApiResponse>(`/pelanggan/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.data.success) return res.data;
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) return error.response?.data;
+
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan sistem",
+    };
+  }
+};

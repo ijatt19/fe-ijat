@@ -13,6 +13,7 @@ import { ErrorResponse, Pelanggan } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import LihatPelanggan from "./LihatPelanggan";
 import UpdatePelanggan from "./UpdatePelanggan";
+import DeletePelanggan from "./DeletePelanggan";
 
 function TablePelanggan({
   keyword,
@@ -72,7 +73,7 @@ function TablePelanggan({
                     token={token}
                     query="pelanggan"
                   />
-                  {/* <DeleteSupplier data={item} token={token} /> */}
+                  <DeletePelanggan data={item} token={token} />
                 </TableCell>
               </TableRow>
             ))
