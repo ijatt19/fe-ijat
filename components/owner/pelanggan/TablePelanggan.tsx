@@ -12,6 +12,7 @@ import { getAllPelanggan } from "@/services/pelanggan.service";
 import { ErrorResponse, Pelanggan } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import LihatPelanggan from "./LihatPelanggan";
+import UpdatePelanggan from "./UpdatePelanggan";
 
 function TablePelanggan({
   keyword,
@@ -66,7 +67,11 @@ function TablePelanggan({
                 <TableCell>{item.alamat}</TableCell>
                 <TableCell className="flex items-center gap-x-4">
                   <LihatPelanggan data={item} />
-                  {/* <UpdateSupplier data={item} token={token} query="supplier" /> */}
+                  <UpdatePelanggan
+                    data={item}
+                    token={token}
+                    query="pelanggan"
+                  />
                   {/* <DeleteSupplier data={item} token={token} /> */}
                 </TableCell>
               </TableRow>
