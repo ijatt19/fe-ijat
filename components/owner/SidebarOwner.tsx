@@ -8,9 +8,7 @@ import {
 } from "../ui/collapsible";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
-import { api } from "@/lib/axios";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
 import { User } from "next-auth";
 import { logout } from "@/services/logout.service";
 
@@ -39,9 +37,9 @@ function SidebarOwner({ user }: SidebarOwnerProps) {
         { name: "Antrian SPK", location: "/" },
       ],
     },
-    { location: "/", name: "Stok Gudang", imagePath: "/stock.svg" },
-    { location: "/", name: "Pelanggan", imagePath: "/pelanggan.svg" },
-    { location: "/", name: "Pesan Email", imagePath: "/email.svg" },
+    { location: "/stok-gudang", name: "Stok Gudang", imagePath: "/stock.svg" },
+    { location: "/pelanggan", name: "Pelanggan", imagePath: "/pelanggan.svg" },
+    { location: "/pesan", name: "Pesan Email", imagePath: "/email.svg" },
     {
       name: "Keuangan",
       imagePath: "/keuangan.svg",

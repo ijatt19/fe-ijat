@@ -42,9 +42,9 @@ function TopbarOwner({ user }: TopbarOwnerProps) {
         { name: "Antrian SPK", location: "/" },
       ],
     },
-    { location: "/", name: "Stok Gudang", imagePath: "/stock.svg" },
-    { location: "/", name: "Pelanggan", imagePath: "/pelanggan.svg" },
-    { location: "/", name: "Pesan Email", imagePath: "/email.svg" },
+    { location: "/stok-gudang", name: "Stok Gudang", imagePath: "/stock.svg" },
+    { location: "/pelanggan", name: "Pelanggan", imagePath: "/pelanggan.svg" },
+    { location: "/pesan", name: "Pesan Email", imagePath: "/email.svg" },
     {
       name: "Keuangan",
       imagePath: "/keuangan.svg",
