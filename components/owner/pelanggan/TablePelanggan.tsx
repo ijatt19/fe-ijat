@@ -11,6 +11,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { getAllPelanggan } from "@/services/pelanggan.service";
 import { ErrorResponse, Pelanggan } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
+import LihatPelanggan from "./LihatPelanggan";
 
 function TablePelanggan({
   keyword,
@@ -64,7 +65,7 @@ function TablePelanggan({
                 <TableCell>{item.noHp}</TableCell>
                 <TableCell>{item.alamat}</TableCell>
                 <TableCell className="flex items-center gap-x-4">
-                  {/* <LihatSupplier data={item} /> */}
+                  <LihatPelanggan data={item} />
                   {/* <UpdateSupplier data={item} token={token} query="supplier" /> */}
                   {/* <DeleteSupplier data={item} token={token} /> */}
                 </TableCell>
