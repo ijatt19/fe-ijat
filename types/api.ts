@@ -142,3 +142,8 @@ export interface Pelanggan {
   noHp: string;
   alamat: string;
 }
+
+export enum JenisModalPrive {
+  SETOR_MODAL = "setor modal",
+  TARIK_PRIVE = "tarik prive",
+}

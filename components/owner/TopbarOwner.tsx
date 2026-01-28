@@ -7,9 +7,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "../ui/collapsible";
-import { AxiosError } from "axios";
 import { toast } from "sonner";
-import { api } from "@/lib/axios";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
 import { User } from "next-auth";
@@ -51,7 +49,7 @@ function TopbarOwner({ user }: TopbarOwnerProps) {
       children: [
         { name: "Biaya Operasional", location: "/" },
         { name: "Arus Kas", location: "/" },
-        { name: "Modal & Prive", location: "/" },
+        { name: "Modal & Prive", location: "/modal-prive" },
         { name: "Laporan Keuangan", location: "/" },
       ],
     },

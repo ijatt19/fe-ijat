@@ -46,7 +46,7 @@ function SidebarOwner({ user }: SidebarOwnerProps) {
       children: [
         { name: "Biaya Operasional", location: "/" },
         { name: "Arus Kas", location: "/" },
-        { name: "Modal & Prive", location: "/" },
+        { name: "Modal & Prive", location: "/modal-prive" },
         { name: "Laporan Keuangan", location: "/" },
       ],
     },
