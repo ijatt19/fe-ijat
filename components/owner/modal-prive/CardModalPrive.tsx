@@ -11,7 +11,7 @@ function CardModalPrive({
 }) {
   return (
     <div
-      className={`relative top-0 left-0 ${v2 ? "bg-primary-red" : "bg-primary-green"} pl-4 rounded`}
+      className={`relative top-0 left-0 ${v2 ? "bg-primary-red" : "bg-primary-green"} pl-2 rounded`}
     >
       <div className="font-semibold bg-white py-4 flex flex-col gap-y-4">
         <p className=" text-base pl-4">{title}</p>
