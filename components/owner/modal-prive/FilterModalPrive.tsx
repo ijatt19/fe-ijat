@@ -24,8 +24,8 @@ function FilterModalPrive({
   setBulan: (v: string) => void;
   tahun: string;
   setTahun: (v: string) => void;
-  jenis: JenisModalPrive;
-  setJenis: (v: JenisModalPrive) => void;
+  jenis: string;
+  setJenis: (v: string) => void;
 }) {
   const BULAN = [
     { label: "Januari", value: "01" },
@@ -47,8 +47,8 @@ function FilterModalPrive({
     return { label: String(year), value: String(year) };
   });
   return (
-    <div className="flex flex-col gap-y-2">
-      <div className="flex gap-x-2 w-full">
+    <div className="flex flex-col gap-y-2 md:gap-y-0 md:flex-row md:gap-x-4">
+      <div className="flex gap-x-2 w-full md:w-2/3 md:gap-x-4">
         <Field className="flex-1 min-w-0">
           <FieldLabel>Bulan</FieldLabel>
           <Select value={bulan} onValueChange={setBulan}>
@@ -107,7 +107,7 @@ function FilterModalPrive({
           </Select>
         </Field>
       </div>
-      <Button className="bg-primary-blue">Tampilkan</Button>
+      <Button className="bg-primary-blue md:self-end">Tampilkan</Button>
     </div>
   );
 }
