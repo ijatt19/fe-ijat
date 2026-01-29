@@ -5,6 +5,7 @@ import FilterModalPrive from "./FilterModalPrive";
 import { JenisModalPrive } from "@/types/api";
 import CardModalPrive from "./CardModalPrive";
 import { Button } from "@/components/ui/button";
+import TambahModalPrive from "./TambahModalPrive";
 
 function ContainerModalPrive({ token }: { token: string }) {
   const [bulan, setBulan] = useState<string>("");
@@ -25,10 +26,9 @@ function ContainerModalPrive({ token }: { token: string }) {
         <CardModalPrive nominal="12.500.000" title="TOTAL PRIVE DIAMBIL" v2 />
         <div className="flex flex-col gap-y-4 justify-between">
           <Button className="bg-yellow-500">Print Laporan</Button>
-          <Button className="bg-primary-green">Tambah +</Button>
+          <TambahModalPrive token={token} />
         </div>
       </div>
-      {/* <TambahPelanggan token={token} /> */}
       {/* <TablePelanggan keyword={keyword} token={token} /> */}
     </div>
   );
