@@ -89,3 +89,28 @@ export const updateModalPrive = async (
     };
   }
 };
+
+export const deleteModalPrive = async (
+  id: number,
+  token: string,
+): Promise<ApiResponse> => {
+  try {
+    const res = await api.delete<ApiResponse>(`/modal-prive/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.data.success) return res.data;
+
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) return error.response?.data;
+
+    return {
+      success: false,
+      statusCode: 500,
+      message: "Terjadi kesalahan sistem",
+    };
+  }
+};

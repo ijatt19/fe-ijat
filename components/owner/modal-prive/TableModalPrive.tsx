@@ -11,6 +11,7 @@ import { getAllModalPrive } from "@/services/modal-prive.service";
 import { ErrorResponse, ModalPrive } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 import UpdateModalPrive from "./UpdateModalPrive";
+import DeleteModalPrive from "./DeleteModalPrive";
 
 function TableModalPrive({
   filter,
@@ -84,7 +85,7 @@ function TableModalPrive({
                     token={token}
                     query="modal-prive"
                   />
-                  {/* <DeletePelanggan data={item} token={token} /> */}
+                  <DeleteModalPrive data={item} token={token} />
                 </TableCell>
               </TableRow>
             ))
