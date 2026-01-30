@@ -1,4 +1,6 @@
-export const formatRupiah = (value: string | number) => {
+export const formatRupiah = (value?: string) => {
   if (!value) return "";
-  return Number(value).toLocaleString("id-ID", { maximumFractionDigits: 0 });
+  const clean = value.replace(/\D/g, "");
+  if (!clean) return "";
+  return Number(clean).toLocaleString("id-ID", { maximumFractionDigits: 0 });
 };

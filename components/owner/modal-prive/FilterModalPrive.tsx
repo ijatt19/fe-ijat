@@ -13,19 +13,17 @@ import { JenisModalPrive } from "@/types/api";
 import React from "react";
 
 function FilterModalPrive({
-  bulan,
-  setBulan,
-  tahun,
-  setTahun,
-  jenis,
-  setJenis,
+  filter,
+  setFilter,
+  btnHandler,
 }: {
-  bulan: string;
-  setBulan: (v: string) => void;
-  tahun: string;
-  setTahun: (v: string) => void;
-  jenis: string;
-  setJenis: (v: string) => void;
+  filter: {
+    bulan: string;
+    tahun: string;
+    jenis: string;
+  };
+  setFilter: (v: { bulan: string; tahun: string; jenis: string }) => void;
+  btnHandler: (v: { bulan: string; tahun: string; jenis: string }) => void;
 }) {
   const BULAN = [
     { label: "Januari", value: "01" },
@@ -51,7 +49,15 @@ function FilterModalPrive({
       <div className="flex gap-x-2 w-full md:w-2/3 md:gap-x-4">
         <Field className="flex-1 min-w-0">
           <FieldLabel>Bulan</FieldLabel>
-          <Select value={bulan} onValueChange={setBulan}>
+          <Select
+            value={filter.bulan}
+            onValueChange={(v) =>
+              setFilter({
+                ...filter,
+                bulan: v,
+              })
+            }
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Pilih Bulan" />
             </SelectTrigger>
@@ -69,7 +75,15 @@ function FilterModalPrive({
 
         <Field className="flex-1 min-w-0">
           <FieldLabel>Tahun</FieldLabel>
-          <Select value={tahun} onValueChange={setTahun}>
+          <Select
+            value={filter.tahun}
+            onValueChange={(v) =>
+              setFilter({
+                ...filter,
+                tahun: v,
+              })
+            }
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Pilih Tahun" />
             </SelectTrigger>
@@ -88,8 +102,13 @@ function FilterModalPrive({
         <Field className="flex-1 min-w-0">
           <FieldLabel>Jenis Transaksi</FieldLabel>
           <Select
-            value={jenis}
-            onValueChange={(v) => setJenis(v as JenisModalPrive)}
+            value={filter.jenis}
+            onValueChange={(v) =>
+              setFilter({
+                ...filter,
+                jenis: v,
+              })
+            }
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Pilih Jenis" />
@@ -107,7 +126,13 @@ function FilterModalPrive({
           </Select>
         </Field>
       </div>
-      <Button className="bg-primary-blue md:self-end">Tampilkan</Button>
+      <Button
+        type="button"
+        onClick={() => btnHandler(filter)}
+        className="bg-primary-blue md:self-end"
+      >
+        Tampilkan
+      </Button>
     </div>
   );
 }

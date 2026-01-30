@@ -2,24 +2,33 @@
 
 import { useState } from "react";
 import FilterModalPrive from "./FilterModalPrive";
-import { JenisModalPrive } from "@/types/api";
 import CardModalPrive from "./CardModalPrive";
 import { Button } from "@/components/ui/button";
 import TambahModalPrive from "./TambahModalPrive";
+import TableModalPrive from "./TableModalPrive";
 
 function ContainerModalPrive({ token }: { token: string }) {
-  const [bulan, setBulan] = useState<string>("");
-  const [tahun, setTahun] = useState<string>("");
-  const [jenis, setJenis] = useState<string>("");
+  const [draftFilter, setDraftFilter] = useState({
+    bulan: "",
+    tahun: "",
+    jenis: "",
+  });
+
+  const [appliedFilter, setAppliedFilter] = useState({
+    bulan: "",
+    tahun: "",
+    jenis: "",
+  });
+
+  const tampilkanHandler = () => {
+    setAppliedFilter(draftFilter);
+  };
   return (
     <div className="flex flex-col gap-y-8 w-full">
       <FilterModalPrive
-        bulan={bulan}
-        setBulan={setBulan}
-        tahun={tahun}
-        setTahun={setTahun}
-        jenis={jenis}
-        setJenis={setJenis}
+        filter={draftFilter}
+        setFilter={setDraftFilter}
+        btnHandler={tampilkanHandler}
       />
       <div className="flex flex-col gap-y-8 w-full md:gap-y-0 md:flex-row md:justify-between md:max-w-[80%] xl:max-w-[60%]">
         <CardModalPrive nominal="12.500.000" title="TOTAL MODAL DISETOR" />
@@ -29,7 +38,7 @@ function ContainerModalPrive({ token }: { token: string }) {
           <TambahModalPrive token={token} />
         </div>
       </div>
-      {/* <TablePelanggan keyword={keyword} token={token} /> */}
+      <TableModalPrive token={token} filter={appliedFilter} />
     </div>
   );
 }

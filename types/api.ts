@@ -147,3 +147,12 @@ export enum JenisModalPrive {
   SETOR_MODAL = "setor modal",
   TARIK_PRIVE = "tarik prive",
 }
+
+export interface ModalPrive {
+  id: number;
+  jenis: JenisModalPrive;
+  nominal: string;
+  keterangan: string;
+  userId: number;
+  createdAt: string;
+}
