@@ -73,7 +73,7 @@ function LihatBarangJadi({ data }: { data: BarangJadi }) {
                       autoComplete="off"
                       id="modal-curah"
                       type="number"
-                      value={curah.hargaModal}
+                      value={curah?.hargaModal ?? 0}
                       readOnly
                     />
                   </Field>
@@ -85,7 +85,7 @@ function LihatBarangJadi({ data }: { data: BarangJadi }) {
                       autoComplete="off"
                       id="jual-curah"
                       type="number"
-                      value={curah.hargaJual}
+                      value={curah?.hargaJual ?? 0}
                       readOnly
                     />
                   </Field>
@@ -100,7 +100,7 @@ function LihatBarangJadi({ data }: { data: BarangJadi }) {
                       autoComplete="off"
                       id="modal-susun"
                       type="number"
-                      value={susun.hargaModal}
+                      value={susun?.hargaModal ?? 0}
                       readOnly
                     />
                   </Field>
@@ -111,7 +111,7 @@ function LihatBarangJadi({ data }: { data: BarangJadi }) {
                     <Input
                       autoComplete="off"
                       id="jual-susun"
-                      value={susun.hargaJual}
+                      value={susun?.hargaJual ?? 0}
                       type="number"
                       readOnly
                     />

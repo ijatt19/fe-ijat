@@ -49,6 +49,8 @@ function TableBarangJadi({
 
   if (!data) return null;
 
+  console.log(data);
+
   return (
     <div>
       <Table>
