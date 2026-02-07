@@ -31,13 +31,13 @@ export const getUserProfile = cache(
         message: "Terjadi kesalahan internal (Unknown Error)",
       };
     }
-  }
+  },
 );
 
 export const updateUserProfile = async (
   token: string,
   id: number,
-  values: ProfilFormValues
+  values: ProfilFormValues,
 ): Promise<ApiResponse> => {
   try {
     const response = await api.patch<ApiResponse>(`/user/${id}`, values, {
@@ -65,7 +65,7 @@ export const updateUserProfile = async (
 
 export const gantiPassword = async (
   token: string,
-  values: GantiPasswordValues
+  values: GantiPasswordValues,
 ): Promise<ApiResponse> => {
   try {
     const response = await api.patch<ApiResponse>("/user/ganti", values, {
