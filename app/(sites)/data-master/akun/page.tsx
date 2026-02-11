@@ -7,5 +7,5 @@ export default async function AkunPage() {
   const session = await auth();
 
   if (!session || !session.user.token) redirect("/");
-  return <ContainerAkun token={session.user.token} />;
+  return <ContainerAkun token={session.user.token} currentUserId={session.user.id} />;
 }

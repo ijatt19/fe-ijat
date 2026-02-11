@@ -1,14 +1,27 @@
 import z from "zod";
 
+// Schema dengan validasi margin (hargaJual >= hargaModal)
+const varianSchema = z.object({
+  jenisPacking: z.enum(["curah", "susun"]).optional(),
+  hargaModal: z.number().min(0, "Harga tidak boleh negatif").optional(),
+  hargaJual: z.number().min(0, "Harga tidak boleh negatif").optional(),
+}).refine(
+  (data) => {
+    // Skip jika salah satu kosong
+    if (data.hargaModal === undefined || data.hargaJual === undefined) return true;
+    if (data.hargaModal === 0 && data.hargaJual === 0) return true;
+    // Validasi margin tidak negatif
+    return data.hargaJual >= data.hargaModal;
+  },
+  {
+    message: "Harga jual tidak boleh lebih kecil dari modal (margin negatif)",
+    path: ["hargaJual"],
+  }
+);
+
 export const tambahBarangJadiSchema = z.object({
   name: z.string().min(1, "Nama Barang harus di isi"),
-  varians: z.array(
-    z.object({
-      jenisPacking: z.enum(["curah", "susun"]),
-      hargaModal: z.number().min(1, "Harga modal harus di isi"),
-      hargaJual: z.number().min(1, "Harga jual harus di isi"),
-    }),
-  ),
+  varians: z.array(varianSchema),
 });
 
 export type TambahBarangJadiValues = z.infer<typeof tambahBarangJadiSchema>;
@@ -19,12 +32,23 @@ export const updateBarangJadiSchema = z.object({
     .array(
       z
         .object({
-          id: z.number().min(1, "Id varian harus di isi").optional(),
+          id: z.number().optional(),
           jenisPacking: z.enum(["curah", "susun"]).optional(),
-          hargaModal: z.number().optional(),
-          hargaJual: z.number().optional(),
+          hargaModal: z.number().min(0).optional(),
+          hargaJual: z.number().min(0).optional(),
         })
-        .optional(),
+        .refine(
+          (data) => {
+            if (data.hargaModal === undefined || data.hargaJual === undefined) return true;
+            if (data.hargaModal === 0 && data.hargaJual === 0) return true;
+            return data.hargaJual >= data.hargaModal;
+          },
+          {
+            message: "Harga jual tidak boleh lebih kecil dari modal",
+            path: ["hargaJual"],
+          }
+        )
+        .optional()
     )
     .optional(),
 });

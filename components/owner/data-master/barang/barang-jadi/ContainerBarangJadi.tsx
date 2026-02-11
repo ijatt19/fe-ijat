@@ -8,13 +8,21 @@ import TambahBarang from "./TambahBarang";
 
 function ContainerBarangJadi({ token }: { token: string }) {
   const [keyword, setKeyword] = useState("");
+  
   return (
-    <div className="flex flex-col gap-y-8">
-      <div className="flex items-end gap-x-4 md:w-2/3">
-        <SearchBarangJadi value={keyword} onChange={setKeyword} />
+    <div className="flex flex-col gap-y-6">
+      {/* Tab Navigation */}
+      <NavDataMaster />
+      
+      {/* Actions Bar */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="w-full sm:w-auto sm:min-w-[320px]">
+          <SearchBarangJadi value={keyword} onChange={setKeyword} />
+        </div>
         <TambahBarang token={token} />
       </div>
-      <NavDataMaster />
+      
+      {/* Table */}
       <TableBarangJadi token={token} keyword={keyword} />
     </div>
   );

@@ -5,15 +5,20 @@ import SearchAkun from "./SearchAkun";
 import TambahAkun from "./TambahAkun";
 import TableAkun from "./TableAkun";
 
-function ContainerAkun({ token }: { token: string }) {
+function ContainerAkun({ token, currentUserId }: { token: string; currentUserId: string }) {
   const [keyword, setKeyword] = useState("");
   return (
-    <div className="flex flex-col gap-y-8">
-      <div className="flex items-end gap-x-4 md:w-2/3">
-        <SearchAkun value={keyword} onChange={setKeyword} />
+    <div className="flex flex-col gap-y-6">
+      {/* Actions Bar */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="w-full sm:w-auto sm:min-w-[320px]">
+          <SearchAkun value={keyword} onChange={setKeyword} />
+        </div>
         <TambahAkun token={token} />
       </div>
-      <TableAkun keyword={keyword} token={token} />
+      
+      {/* Table */}
+      <TableAkun keyword={keyword} token={token} currentUserId={currentUserId} />
     </div>
   );
 }

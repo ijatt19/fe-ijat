@@ -1,14 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
-} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { loginSchema, LoginSchema } from "@/lib/schemas/auth";
 import Link from "next/link";
@@ -19,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { api } from "@/lib/axios";
 import { AxiosError } from "axios";
+import Image from "next/image";
 
 export default function Home() {
   const router = useRouter();
@@ -64,76 +57,219 @@ export default function Home() {
       setIsPending(false);
     }
   };
+
+
   return (
-    <div className="min-h-screen flex py-16 px-8 justify-center xl:justify-start xl:p-0">
-      <div className="hidden xl:flex xl:items-center xl:justify-center xl:w-1/2 xl:bg-black xl:text-white xl:text-4xl">
-        <div>NAZMA PLASTIK</div>
-      </div>
-      <div className="w-full md:w-2/3 xl:w-1/2 xl:flex xl:items-center xl:justify-center">
-        <div className="border w-full rounded overflow-hidden flex flex-col gap-y-4 shadow h-min pb-8 xl:w-1/2 xl:py-8 xl:border-none">
-          <div className="bg-black text-white text-center p-8 text-2xl xl:hidden">
-            <div>NAZMA PLASTIK</div>
+    <div className="min-h-screen flex">
+      {/* Left Side - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative overflow-hidden">
+        {/* Light Gradient Background - kontras dengan logo biru tua */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50 to-indigo-100" />
+        
+        {/* Decorative Elements */}
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-blue-200/50 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-indigo-200/50 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-purple-200/30 rounded-full blur-3xl" />
+        </div>
+        
+        {/* Grid Pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.08]"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
+                             linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px)`,
+            backgroundSize: '60px 60px'
+          }}
+        />
+        
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-center items-center w-full px-12">
+          {/* Logo */}
+          <div className="mb-8">
+            <div className="w-28 h-28 rounded-2xl bg-white shadow-xl shadow-blue-200/50 flex items-center justify-center border border-blue-100">
+              <Image 
+                src="/logo.svg" 
+                alt="Nazma Plastik Logo" 
+                width={72} 
+                height={72}
+              />
+            </div>
           </div>
-          <div className="px-4">
-            <form
-              onSubmit={handleSubmit(submitHandler)}
-              className="text-center"
-            >
-              {globalError && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-                  <span className="block sm:inline">{globalError}</span>
+          
+          {/* Brand Name */}
+          <h1 className="text-4xl xl:text-5xl font-bold text-slate-800 tracking-tight mb-4">
+            NAZMA PLASTIK
+          </h1>
+          
+          <p className="text-slate-500 text-lg xl:text-xl text-center max-w-md leading-relaxed">
+            Sistem Manajemen Bisnis Terintegrasi
+          </p>
+          
+          {/* Features */}
+          <div className="mt-16 space-y-4">
+            {[
+              "Manajemen Stok & Inventaris",
+              "Laporan Keuangan Real-time",
+              "Dashboard Analytics",
+            ].map((feature, i) => (
+              <div 
+                key={i}
+                className="flex items-center gap-3 text-slate-600"
+              >
+                <div className="w-2 h-2 rounded-full bg-blue-500" />
+                <span className="text-sm xl:text-base">{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Login Form */}
+      <div className="w-full lg:w-1/2 xl:w-[45%] flex items-center justify-center p-6 sm:p-12 bg-slate-50">
+        <div className="w-full max-w-md">
+          {/* Mobile Logo */}
+          <div className="lg:hidden text-center mb-10">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-slate-900 mb-4">
+              <Image 
+                src="/logo.svg" 
+                alt="Logo" 
+                width={40} 
+                height={40}
+                className="invert opacity-90"
+              />
+            </div>
+            <h1 className="text-2xl font-bold text-slate-900">NAZMA PLASTIK</h1>
+          </div>
+
+          {/* Login Card */}
+          <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-8 sm:p-10 border border-slate-100">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+                Selamat Datang
+              </h2>
+              <p className="text-slate-500">
+                Masuk ke akun Anda untuk melanjutkan
+              </p>
+            </div>
+
+            {/* Error Alert */}
+            {globalError && (
+              <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 flex items-start gap-3">
+                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
+                  <svg className="w-3 h-3 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
                 </div>
-              )}
-              <FieldSet>
-                <FieldLegend className="text-5xl mb-6">Login</FieldLegend>
+                <p className="text-sm text-red-700">{globalError}</p>
+              </div>
+            )}
 
-                <FieldGroup>
-                  <Field>
-                    <FieldLabel htmlFor="username">Username/Email</FieldLabel>
-                    <Input
-                      id="username"
-                      autoComplete="off"
-                      placeholder="username/username@mail.com"
-                      {...register("username")}
-                    />
-                    {errors.username && (
-                      <FieldError className="text-red-500 text-sm mt-1 text-left">
-                        {errors.username.message}
-                      </FieldError>
-                    )}
-                  </Field>
+            {/* Form */}
+            <form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
+              {/* Username Field */}
+              <div className="space-y-2">
+                <label 
+                  htmlFor="username" 
+                  className="block text-sm font-medium text-slate-700"
+                >
+                  Username atau Email
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <Input
+                    id="username"
+                    autoComplete="off"
+                    placeholder="Masukkan username atau email"
+                    className="pl-12 h-12 bg-slate-50 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-blue-500/20 transition-all"
+                    {...register("username")}
+                  />
+                </div>
+                {errors.username && (
+                  <p className="text-sm text-red-500 flex items-center gap-1.5">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    {errors.username.message}
+                  </p>
+                )}
+              </div>
 
-                  <Field>
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
-                    <Input
-                      id="password"
-                      type="password"
-                      autoComplete="off"
-                      placeholder="password"
-                      {...register("password")}
-                    />
-                    {errors.password && (
-                      <FieldError className="text-red-500 text-sm mt-1 text-left">
-                        {errors.password.message}
-                      </FieldError>
-                    )}
-                  </Field>
+              {/* Password Field */}
+              <div className="space-y-2">
+                <label 
+                  htmlFor="password" 
+                  className="block text-sm font-medium text-slate-700"
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <Input
+                    id="password"
+                    type="password"
+                    autoComplete="off"
+                    placeholder="Masukkan password"
+                    className="pl-12 h-12 bg-slate-50 border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-blue-500/20 transition-all"
+                    {...register("password")}
+                  />
+                </div>
+                {errors.password && (
+                  <p className="text-sm text-red-500 flex items-center gap-1.5">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
 
-                  <Button
-                    type="submit"
-                    disabled={isPending}
-                    className="w-full mt-4"
-                  >
-                    {isPending ? "Sedang Masuk..." : "Login"}
-                  </Button>
+              {/* Forgot Password */}
+              <div className="text-right">
+                <Link 
+                  href="/" 
+                  className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                >
+                  Lupa password?
+                </Link>
+              </div>
 
-                  <Link href={"/"} className="text-right block mt-2 text-sm">
-                    Lupa Password ?
-                  </Link>
-                </FieldGroup>
-              </FieldSet>
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                disabled={isPending}
+                className="w-full h-12 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-slate-900/10 hover:shadow-xl hover:shadow-slate-900/20"
+              >
+                {isPending ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Memproses...
+                  </span>
+                ) : (
+                  "Masuk"
+                )}
+              </Button>
+
+
             </form>
           </div>
+
+          {/* Footer */}
+          <p className="mt-8 text-center text-sm text-slate-500">
+            © 2024 Nazma Plastik. All rights reserved.
+          </p>
         </div>
       </div>
     </div>

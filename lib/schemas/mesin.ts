@@ -9,6 +9,7 @@ export const createMesinSchema = z.object({
     .string()
     .min(1, "Kapasitas cetak harus di isi")
     .regex(/^\d+(\.\d{1,2})?$/, "Format angka tidak valid (maks 2 desimal)"),
+  status: z.nativeEnum(StatusMesin).default(StatusMesin.AKTIF),
 });
 
 export type CreateMesinValues = z.infer<typeof createMesinSchema>;

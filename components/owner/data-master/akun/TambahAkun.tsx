@@ -1,21 +1,18 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSet,
-} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -34,6 +31,7 @@ import { signOut } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { Plus, UserPlus } from "lucide-react";
 
 function TambahAkun({ token }: { token: string }) {
   const [openDialog, setOpenDialog] = useState(false);
@@ -86,181 +84,185 @@ function TambahAkun({ token }: { token: string }) {
       }}
     >
       <DialogTrigger asChild>
-        <Button className="bg-primary-green">Tambah</Button>
+        <Button className="bg-violet-600 hover:bg-violet-700 text-white gap-2 h-10 px-4 rounded-lg shadow-sm">
+          <Plus className="w-4 h-4" />
+          Tambah Akun
+        </Button>
       </DialogTrigger>
-      <DialogContent className="overflow-auto">
+      <DialogContent className="sm:max-w-md">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-y-4"
         >
-          <DialogHeader>
-            <DialogTitle>Tambah Akun</DialogTitle>
+          <DialogHeader className="pb-4 border-b border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-violet-100">
+                <UserPlus className="w-5 h-5 text-violet-600" />
+              </div>
+              <div>
+                <DialogTitle className="text-lg font-semibold text-slate-900">
+                  Tambah Akun Baru
+                </DialogTitle>
+                <DialogDescription className="text-sm text-slate-500">
+                  Isi data untuk membuat akun baru
+                </DialogDescription>
+              </div>
+            </div>
           </DialogHeader>
-          <FieldSet>
-            <FieldGroup>
-              <Field>
-                <div className="flex items-center w-full text-xs">
-                  <FieldLabel
-                    htmlFor="nama"
-                    className="w-2/3 md:w-1/3 font-normal"
-                  >
-                    Nama Depan :
-                  </FieldLabel>
-                  <Input
-                    autoComplete="off"
-                    disabled={mutation.isPending}
-                    id="nama"
-                    className="w-full"
-                    type="text"
-                    {...register("namaDepan")}
-                  />
-                </div>
+          
+          <div className="space-y-4 py-2">
+            {/* Nama Depan & Belakang */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="namaDepan" className="text-sm font-medium text-slate-700">
+                  Nama Depan
+                </Label>
+                <Input
+                  autoComplete="off"
+                  disabled={mutation.isPending}
+                  id="namaDepan"
+                  type="text"
+                  placeholder="Nama depan"
+                  className="h-10"
+                  {...register("namaDepan")}
+                />
                 {errors.namaDepan && (
-                  <FieldError>{errors.namaDepan.message}</FieldError>
+                  <p className="text-xs text-red-500">{errors.namaDepan.message}</p>
                 )}
-              </Field>
-              <Field>
-                <div className="flex items-center w-full text-xs">
-                  <FieldLabel
-                    htmlFor="namaB"
-                    className="w-2/3 md:w-1/3 font-normal"
-                  >
-                    Nama Belakang :
-                  </FieldLabel>
-                  <Input
-                    autoComplete="off"
-                    disabled={mutation.isPending}
-                    id="namaB"
-                    className="w-full"
-                    type="text"
-                    {...register("namaBelakang")}
-                  />
-                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="namaBelakang" className="text-sm font-medium text-slate-700">
+                  Nama Belakang
+                </Label>
+                <Input
+                  autoComplete="off"
+                  disabled={mutation.isPending}
+                  id="namaBelakang"
+                  type="text"
+                  placeholder="Nama belakang"
+                  className="h-10"
+                  {...register("namaBelakang")}
+                />
                 {errors.namaBelakang && (
-                  <FieldError>{errors.namaBelakang.message}</FieldError>
+                  <p className="text-xs text-red-500">{errors.namaBelakang.message}</p>
                 )}
-              </Field>
-              <Field>
-                <div className="flex items-center w-full text-xs">
-                  <FieldLabel
-                    htmlFor="user"
-                    className="w-2/3 md:w-1/3 font-normal"
-                  >
-                    Username :
-                  </FieldLabel>
-                  <Input
-                    autoComplete="off"
-                    disabled={mutation.isPending}
-                    id="user"
-                    className="w-full"
-                    type="text"
-                    {...register("username")}
-                  />
-                </div>
-                {errors.username && (
-                  <FieldError>{errors.username.message}</FieldError>
-                )}
-              </Field>
-              <Field>
-                <div className="flex items-center w-full text-xs">
-                  <FieldLabel
-                    htmlFor="email"
-                    className="w-2/3 md:w-1/3 font-normal"
-                  >
-                    Email :
-                  </FieldLabel>
-                  <Input
-                    autoComplete="off"
-                    disabled={mutation.isPending}
-                    id="email"
-                    className="w-full"
-                    type="email"
-                    {...register("email")}
-                  />
-                </div>
-                {errors.email && (
-                  <FieldError>{errors.email.message}</FieldError>
-                )}
-              </Field>
-              <Field>
-                <div className="flex items-center w-full text-xs">
-                  <FieldLabel
-                    htmlFor="noHp"
-                    className="w-2/3 md:w-1/3 font-normal"
-                  >
-                    No Hp :
-                  </FieldLabel>
-                  <Input
-                    autoComplete="off"
-                    disabled={mutation.isPending}
-                    id="noHp"
-                    className="w-full"
-                    type="text"
-                    {...register("noHp")}
-                  />
-                </div>
-                {errors.noHp && <FieldError>{errors.noHp.message}</FieldError>}
-              </Field>
-              <Field>
-                <div className="flex items-center w-full text-xs">
-                  <FieldLabel
-                    htmlFor="pw"
-                    className="w-2/3 md:w-1/3 font-normal"
-                  >
-                    Password :
-                  </FieldLabel>
-                  <Input
-                    autoComplete="off"
-                    disabled={mutation.isPending}
-                    id="pw"
-                    className="w-full"
-                    type="text"
-                    {...register("password")}
-                  />
-                </div>
-                {errors.password && (
-                  <FieldError>{errors.password.message}</FieldError>
-                )}
-              </Field>
-              <Field>
-                <div className="flex items-center w-full text-xs">
-                  <FieldLabel
-                    htmlFor="role"
-                    className="w-2/3 md:w-1/3 font-normal"
-                  >
-                    Role :
-                  </FieldLabel>
-                  <Select
-                    disabled={mutation.isPending}
-                    value={status}
-                    onValueChange={(value) => {
-                      setValue("role", value as AkunRole, {
-                        shouldDirty: true,
-                        shouldValidate: true,
-                      });
-                    }}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Pilih Role" />
-                    </SelectTrigger>
-
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Status</SelectLabel>
-                        <SelectItem value={AkunRole.STAFF}>Staff</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                {errors.role && <FieldError>{errors.role.message}</FieldError>}
-              </Field>
-            </FieldGroup>
-          </FieldSet>
-          <DialogFooter>
+              </div>
+            </div>
+            
+            {/* Username */}
+            <div className="space-y-2">
+              <Label htmlFor="username" className="text-sm font-medium text-slate-700">
+                Username
+              </Label>
+              <Input
+                autoComplete="off"
+                disabled={mutation.isPending}
+                id="username"
+                type="text"
+                placeholder="Masukkan username"
+                className="h-10"
+                {...register("username")}
+              />
+              {errors.username && (
+                <p className="text-xs text-red-500">{errors.username.message}</p>
+              )}
+            </div>
+            
+            {/* Email */}
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium text-slate-700">
+                Email
+              </Label>
+              <Input
+                autoComplete="off"
+                disabled={mutation.isPending}
+                id="email"
+                type="email"
+                placeholder="contoh@email.com"
+                className="h-10"
+                {...register("email")}
+              />
+              {errors.email && (
+                <p className="text-xs text-red-500">{errors.email.message}</p>
+              )}
+            </div>
+            
+            {/* No HP */}
+            <div className="space-y-2">
+              <Label htmlFor="noHp" className="text-sm font-medium text-slate-700">
+                No. HP
+              </Label>
+              <Input
+                autoComplete="off"
+                disabled={mutation.isPending}
+                id="noHp"
+                type="text"
+                placeholder="08xxxxxxxxxx"
+                className="h-10"
+                {...register("noHp")}
+              />
+              {errors.noHp && (
+                <p className="text-xs text-red-500">{errors.noHp.message}</p>
+              )}
+            </div>
+            
+            {/* Password */}
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm font-medium text-slate-700">
+                Password
+              </Label>
+              <Input
+                autoComplete="off"
+                disabled={mutation.isPending}
+                id="password"
+                type="text"
+                placeholder="Masukkan password"
+                className="h-10"
+                {...register("password")}
+              />
+              {errors.password && (
+                <p className="text-xs text-red-500">{errors.password.message}</p>
+              )}
+            </div>
+            
+            {/* Role */}
+            <div className="space-y-2">
+              <Label htmlFor="role" className="text-sm font-medium text-slate-700">
+                Role
+              </Label>
+              <Select
+                disabled={mutation.isPending}
+                value={status}
+                onValueChange={(value) => {
+                  setValue("role", value as AkunRole, {
+                    shouldDirty: true,
+                    shouldValidate: true,
+                  });
+                }}
+              >
+                <SelectTrigger className="w-full h-10">
+                  <SelectValue placeholder="Pilih Role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Role</SelectLabel>
+                    <SelectItem value={AkunRole.STAFF}>Staff</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {errors.role && (
+                <p className="text-xs text-red-500">{errors.role.message}</p>
+              )}
+            </div>
+          </div>
+          
+          <DialogFooter className="gap-2 sm:gap-2 pt-4 border-t border-slate-100">
             <DialogClose asChild>
               <Button
+                type="button"
+                variant="outline"
                 disabled={mutation.isPending}
-                className="bg-primary-orange"
+                className="flex-1 sm:flex-none"
               >
                 Batal
               </Button>
@@ -268,9 +270,22 @@ function TambahAkun({ token }: { token: string }) {
             <Button
               disabled={mutation.isPending}
               type="submit"
-              className="bg-primary-green"
+              className="flex-1 sm:flex-none bg-violet-600 hover:bg-violet-700 text-white"
             >
-              {mutation.isPending ? "Menyimpan" : "Simpan"}
+              {mutation.isPending ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Menyimpan...
+                </span>
+              ) : (
+                <span className="flex items-center gap-2">
+                  <UserPlus className="w-4 h-4" />
+                  Simpan
+                </span>
+              )}
             </Button>
           </DialogFooter>
         </form>
